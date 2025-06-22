@@ -148,7 +148,7 @@ export default function Settings() {
                   <Switch
                     checked={section.state[setting.key as keyof typeof section.state]}
                     onCheckedChange={(checked) => 
-                      section.setState(prev => ({ ...prev, [setting.key]: checked }))
+                      section.setState((prev: any) => ({ ...prev, [setting.key]: checked }))
                     }
                     className="data-[state=checked]:bg-[#936cbf]"
                   />
@@ -186,7 +186,7 @@ export default function Settings() {
                   <Switch
                     checked={option.value}
                     onCheckedChange={(checked) => 
-                      setAccountSettings(prev => ({ ...prev, darkMode: checked }))
+                      setAccountSettings((prev: any) => ({ ...prev, darkMode: checked }))
                     }
                     className="data-[state=checked]:bg-[#936cbf]"
                   />

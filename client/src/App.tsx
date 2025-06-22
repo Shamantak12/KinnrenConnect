@@ -19,6 +19,7 @@ import Bookmarks from "@/pages/bookmarks";
 import Heritage from "@/pages/heritage";
 import Chats from "@/pages/chats";
 import VideoRoom from "@/pages/video-room";
+import Settings from "@/pages/settings";
 
 function Router() {
   return (
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/heritage" component={Heritage} />
       <Route path="/chats" component={Chats} />
       <Route path="/video-room" component={VideoRoom} />
+      <Route path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>
   );

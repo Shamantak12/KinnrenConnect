@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { Home, Search, Plus, Heart, User } from "lucide-react";
+import { Home, Search, Video, Heart, User } from "lucide-react";
 
 export default function BottomNavigation() {
   const [location] = useLocation();
@@ -29,9 +29,9 @@ export default function BottomNavigation() {
           </Link>
         ))}
         
-        <Link href="/story-time">
-          <Button className="flex flex-col items-center p-2 bg-gradient-to-r from-pink-500 to-teal-500 rounded-full w-12 h-12 justify-center hover:from-pink-600 hover:to-teal-600">
-            <Plus className="h-6 w-6 text-white" />
+        <Link href="/video-room">
+          <Button className="flex flex-col items-center p-2 bg-gradient-to-r from-[#936cbf] to-[#f38e57] rounded-full w-12 h-12 justify-center hover:opacity-90">
+            <Video className="h-6 w-6 text-white" />
           </Button>
         </Link>
         
