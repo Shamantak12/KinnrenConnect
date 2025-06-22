@@ -99,6 +99,48 @@ export default function Home() {
         </Button>
       </header>
 
+      {/* Family Search */}
+      <div className="px-4 py-3 border-b border-gray-100">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input
+            placeholder="Search families or members to connect..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 border-[#936cbf]/20 focus:border-[#936cbf] focus:ring-[#936cbf]/20"
+          />
+        </div>
+      </div>
+
+      {/* Quick Thought Sharing */}
+      <div className="px-4 py-3 border-b border-gray-100">
+        <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 rounded-lg p-3">
+          <div className="flex items-center space-x-2">
+            <Input
+              placeholder="Share a quick thought or good morning message..."
+              value={quickThought}
+              onChange={(e) => setQuickThought(e.target.value)}
+              className="flex-1 border-none bg-white/80 focus:bg-white placeholder-gray-500"
+            />
+            <Button
+              size="sm"
+              className="bg-[#936cbf] hover:bg-[#7a5ca8] text-white rounded-full p-2"
+              onClick={() => {
+                if (quickThought.trim()) {
+                  toast({
+                    title: "Thought shared!",
+                    description: "Your message has been sent to the family.",
+                  });
+                  setQuickThought("");
+                }
+              }}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Stories Section */}
       {(stories as any[]).length > 0 && (
         <div className="px-4 py-2 border-b border-gray-100">

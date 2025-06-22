@@ -17,6 +17,8 @@ import TimeCapsule from "@/pages/time-capsule";
 import VideoMontage from "@/pages/video-montage";
 import Bookmarks from "@/pages/bookmarks";
 import Heritage from "@/pages/heritage";
+import Chats from "@/pages/chats";
+import VideoRoom from "@/pages/video-room";
 
 function Router() {
   return (
@@ -34,6 +36,8 @@ function Router() {
       <Route path="/video-montage" component={VideoMontage} />
       <Route path="/bookmarks" component={Bookmarks} />
       <Route path="/heritage" component={Heritage} />
+      <Route path="/chats" component={Chats} />
+      <Route path="/video-room" component={VideoRoom} />
       <Route component={NotFound} />
     </Switch>
   );
