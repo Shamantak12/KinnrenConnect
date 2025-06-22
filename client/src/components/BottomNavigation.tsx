@@ -20,7 +20,7 @@ export default function BottomNavigation() {
             <Button 
               variant="ghost" 
               className={`flex flex-col items-center p-2 ${
-                item.active ? 'text-pink-500' : 'text-gray-600 hover:text-pink-500'
+                item.active ? 'text-[#936cbf]' : 'text-gray-600 hover:text-[#936cbf]'
               }`}
             >
               <item.icon className="h-6 w-6" />
@@ -40,7 +40,7 @@ export default function BottomNavigation() {
             <Button 
               variant="ghost" 
               className={`flex flex-col items-center p-2 ${
-                item.active ? 'text-pink-500' : 'text-gray-600 hover:text-pink-500'
+                item.active ? 'text-[#936cbf]' : 'text-gray-600 hover:text-[#936cbf]'
               }`}
             >
               <item.icon className="h-6 w-6" />
