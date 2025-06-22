@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
+
 import { useToast } from "@/hooks/use-toast";
-import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import Sidebar from "@/components/Sidebar";
 import PostCard from "@/components/PostCard";
@@ -13,36 +12,27 @@ import { Bell, Menu } from "lucide-react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, isLoading } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !user) {
-      toast({
-        title: "Unauthorized",
-        description: "You are logged out. Logging in again...",
-        variant: "destructive",
-      });
-      setTimeout(() => {
-        window.location.href = "/api/login";
-      }, 500);
-      return;
-    }
-  }, [user, isLoading, toast]);
+  // Mock user for demo without authentication
+  const user = {
+    id: "1",
+    firstName: "John",
+    lastName: "Doe",
+    profileImageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    familyId: "family-1"
+  };
 
   // Fetch posts
   const { data: posts = [], isLoading: postsLoading } = useQuery({
     queryKey: ["/api/posts"],
-    enabled: !!user?.familyId,
     retry: false,
   });
 
   // Fetch stories
   const { data: stories = [] } = useQuery({
     queryKey: ["/api/stories"],
-    enabled: !!user?.familyId,
     retry: false,
   });
 
