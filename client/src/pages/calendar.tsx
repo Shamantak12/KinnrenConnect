@@ -4,19 +4,40 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, Clock, Package, Star } from "lucide-react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { user } = useAuth();
+  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 
-  // Fetch events
-  const { data: events = [] } = useQuery({
-    queryKey: ["/api/events"],
-    enabled: !!user?.familyId,
-    retry: false,
-  });
+  // Mock data for events and time capsules
+  const events = [
+    { id: 1, title: "Family Dinner", eventDate: "2024-06-22", type: "event", color: "bg-blue-500" },
+    { id: 2, title: "Game Night", eventDate: "2024-06-25", type: "event", color: "bg-green-500" },
+    { id: 3, title: "Birthday Celebration", eventDate: "2024-06-28", type: "event", color: "bg-purple-500" }
+  ];
+
+  const timeCapsules = [
+    { 
+      id: 1, 
+      title: "Summer Memories 2024", 
+      openDate: "2024-06-30", 
+      type: "timeCapsule",
+      status: "sealed",
+      description: "Photos and videos from our beach vacation",
+      color: "bg-orange-500"
+    },
+    { 
+      id: 2, 
+      title: "First Day of School", 
+      openDate: "2025-09-01", 
+      type: "timeCapsule",
+      status: "sealed",
+      description: "Emma's first day memories",
+      color: "bg-pink-500"
+    }
+  ];
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
@@ -28,28 +49,39 @@ export default function Calendar() {
     );
   };
 
+  const getTimeCapsulesForDay = (day: Date) => {
+    return timeCapsules.filter((capsule: any) => 
+      isSameDay(new Date(capsule.openDate), day)
+    );
+  };
+
   const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
   const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
 
   return (
     <div className="min-h-screen max-w-md mx-auto bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => window.history.back()}
-            className="p-2 hover:bg-gray-100 rounded-lg mr-3"
-          >
-            <ArrowLeft className="h-6 w-6 text-gray-700" />
+      <header className="bg-gradient-to-r from-[#936cbf] to-[#f38e57] text-white px-4 py-4 sticky top-0 z-40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.history.back()}
+              className="text-white hover:bg-white/20 p-2"
+            >
+              <ArrowLeft className="h-6 w-6" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-bold">Calendar & Time Capsules</h1>
+              <p className="text-sm text-white/80">Events and memories timeline</p>
+            </div>
+          </div>
+          <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30" size="sm">
+            <Plus className="h-4 w-4 mr-1" />
+            Add
           </Button>
-          <h1 className="text-xl font-semibold text-gray-800">Calendar</h1>
         </div>
-        <Button className="bg-blue-500 hover:bg-blue-600" size="sm">
-          <Plus className="h-4 w-4 mr-1" />
-          Event
-        </Button>
       </header>
 
       <div className="p-4 space-y-6">
@@ -81,21 +113,27 @@ export default function Calendar() {
             <div className="grid grid-cols-7 gap-1">
               {monthDays.map(day => {
                 const dayEvents = getEventsForDay(day);
+                const dayCapsules = getTimeCapsulesForDay(day);
                 const isToday = isSameDay(day, new Date());
+                const hasItems = dayEvents.length > 0 || dayCapsules.length > 0;
                 
                 return (
                   <div
                     key={day.toISOString()}
+                    onClick={() => setSelectedDay(day)}
                     className={`
                       relative p-2 text-center text-sm border rounded cursor-pointer transition-colors
                       ${isSameMonth(day, currentDate) ? 'text-gray-800' : 'text-gray-400'}
-                      ${isToday ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'}
-                      ${dayEvents.length > 0 ? 'ring-2 ring-pink-200' : ''}
+                      ${isToday ? 'bg-gradient-to-r from-[#936cbf] to-[#f38e57] text-white' : 'hover:bg-gray-100'}
+                      ${hasItems ? 'ring-2 ring-[#936cbf]/30' : ''}
                     `}
                   >
                     <div>{format(day, 'd')}</div>
                     {dayEvents.length > 0 && (
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full"></div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></div>
+                    )}
+                    {dayCapsules.length > 0 && (
+                      <div className="absolute -top-1 -left-1 w-2 h-2 bg-[#f38e57] rounded-full"></div>
                     )}
                   </div>
                 );
