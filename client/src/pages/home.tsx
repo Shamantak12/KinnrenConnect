@@ -112,16 +112,22 @@ export default function Home() {
 
 
 
-      {/* Quick Thought Sharing */}
-      <div className="px-4 py-3 border-b border-gray-100">
-        <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 rounded-lg p-3">
-          <div className="flex items-center space-x-2 mb-2">
-            <Input
-              placeholder="Share a quick thought or good morning message..."
-              value={quickThought}
-              onChange={(e) => setQuickThought(e.target.value)}
-              className="flex-1 border-none bg-white/80 focus:bg-white placeholder-gray-500"
+      {/* Quick Thought Sharing - Increased Size */}
+      <div className="px-4 py-4 border-b border-gray-100">
+        <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 rounded-lg p-4">
+          <div className="flex items-start space-x-3 mb-3">
+            <img
+              src={user.profileImageUrl}
+              alt="Profile"
+              className="w-10 h-10 rounded-full"
             />
+            <div className="flex-1">
+              <textarea
+                placeholder="Share a quick thought, good morning message, or what's on your mind..."
+                value={quickThought}
+                onChange={(e) => setQuickThought(e.target.value)}
+                className="w-full h-20 border-none bg-white/80 focus:bg-white placeholder-gray-500 resize-none rounded-lg p-3 text-sm"
+              /></div>
             <Button
               variant="ghost"
               size="sm"

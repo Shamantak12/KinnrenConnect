@@ -172,14 +172,10 @@ export default function FamilyGames() {
           <Card className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10">
             <CardContent className="p-4">
               <h3 className="font-semibold text-gray-900 mb-3">Today's Gaming Stats</h3>
-              <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
                   <p className="text-2xl font-bold text-[#936cbf]">8</p>
                   <p className="text-xs text-gray-600">Games Played</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-[#f38e57]">2h 15m</p>
-                  <p className="text-xs text-gray-600">Time Played</p>
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-[#d65d8b]">450</p>
