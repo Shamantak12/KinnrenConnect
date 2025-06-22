@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { Home, Search, Video, Heart, User } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Home, Search, MessageSquare, Heart, User, Video, Users } from "lucide-react";
 
 export default function BottomNavigation() {
   const [location] = useLocation();

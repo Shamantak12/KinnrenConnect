@@ -9,7 +9,7 @@ import StoriesSection from "@/components/StoriesSection";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Menu, Video, Send, Search } from "lucide-react";
+import { MessageCircle, Menu, Video, Send, Search, Bell, Camera, Image, Plus, Target, Trophy, Users } from "lucide-react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -75,6 +75,31 @@ export default function Home() {
     <div className="min-h-screen max-w-md mx-auto bg-white relative">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <Button variant="ghost" size="sm" className="p-2 hover:bg-blue-100 rounded-lg relative" onClick={() => window.location.href = "/chats"}>
+          <MessageCircle className="h-6 w-6 text-[#936cbf]" />
+          <span className="absolute -top-1 -right-1 bg-[#d65d8b] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            3
+          </span>
+        </Button>
+        
+        <div className="flex flex-col items-center">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#936cbf] to-[#f38e57] bg-clip-text text-transparent">
+            Kinnren
+          </h1>
+        </div>
+        
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => window.location.href = "/notifications"}
+          className="p-2 hover:bg-gray-100 rounded-lg relative"
+        >
+          <Bell className="h-6 w-6 text-gray-700" />
+          <span className="absolute -top-1 -right-1 bg-[#f38e57] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            2
+          </span>
+        </Button>
+        
         <Button
           variant="ghost"
           size="sm"
@@ -83,45 +108,36 @@ export default function Home() {
         >
           <Menu className="h-6 w-6 text-gray-700" />
         </Button>
-        
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#936cbf] to-[#f38e57] bg-clip-text text-transparent">
-            Kinnren
-          </h1>
-          <p className="text-xs text-gray-500 -mt-1">Revisiting the memories</p>
-        </div>
-        
-        <Button variant="ghost" size="sm" className="p-2 hover:bg-blue-100 rounded-lg relative" onClick={() => window.location.href = "/chats"}>
-          <MessageCircle className="h-6 w-6 text-[#936cbf]" />
-          <span className="absolute -top-1 -right-1 bg-[#d65d8b] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-            3
-          </span>
-        </Button>
       </header>
 
-      {/* Family Search */}
-      <div className="px-4 py-3 border-b border-gray-100">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Search families or members to connect..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 border-[#936cbf]/20 focus:border-[#936cbf] focus:ring-[#936cbf]/20"
-          />
-        </div>
-      </div>
+
 
       {/* Quick Thought Sharing */}
       <div className="px-4 py-3 border-b border-gray-100">
         <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 rounded-lg p-3">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 mb-2">
             <Input
               placeholder="Share a quick thought or good morning message..."
               value={quickThought}
               onChange={(e) => setQuickThought(e.target.value)}
               className="flex-1 border-none bg-white/80 focus:bg-white placeholder-gray-500"
             />
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-500 hover:bg-white/80 p-2"
+              onClick={() => toast({ title: "Image picker", description: "Image selection feature available" })}
+            >
+              <Image className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-500 hover:bg-white/80 p-2"
+              onClick={() => toast({ title: "Emoji picker", description: "Emoji selection feature available" })}
+            >
+              😊
+            </Button>
             <Button
               size="sm"
               className="bg-[#936cbf] hover:bg-[#7a5ca8] text-white rounded-full p-2"
@@ -138,6 +154,40 @@ export default function Home() {
               <Send className="h-4 w-4" />
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Daily Tasks */}
+      <div className="px-4 py-3 border-b border-gray-100">
+        <h3 className="text-sm font-semibold text-gray-900 mb-3">Today's Family Tasks</h3>
+        <div className="grid grid-cols-3 gap-3">
+          <Button
+            variant="outline"
+            className="flex flex-col items-center p-3 h-auto border-[#936cbf]/20 hover:bg-[#936cbf]/10"
+            onClick={() => toast({ title: "Task Complete!", description: "Image shared with family. +10 points!" })}
+          >
+            <Camera className="h-6 w-6 text-[#936cbf] mb-1" />
+            <span className="text-xs text-center">Share Image</span>
+            <span className="text-xs text-[#f38e57] font-medium">+10 pts</span>
+          </Button>
+          <Button
+            variant="outline"
+            className="flex flex-col items-center p-3 h-auto border-[#f38e57]/20 hover:bg-[#f38e57]/10"
+            onClick={() => window.location.href = "/family-games"}
+          >
+            <Target className="h-6 w-6 text-[#f38e57] mb-1" />
+            <span className="text-xs text-center">Start Game</span>
+            <span className="text-xs text-[#936cbf] font-medium">+20 pts</span>
+          </Button>
+          <Button
+            variant="outline"
+            className="flex flex-col items-center p-3 h-auto border-[#d65d8b]/20 hover:bg-[#d65d8b]/10"
+            onClick={() => window.location.href = "/family-map"}
+          >
+            <Users className="h-6 w-6 text-[#d65d8b] mb-1" />
+            <span className="text-xs text-center">Add Group</span>
+            <span className="text-xs text-[#f38e57] font-medium">+15 pts</span>
+          </Button>
         </div>
       </div>
 

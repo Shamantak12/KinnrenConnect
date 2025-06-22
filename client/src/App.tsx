@@ -20,6 +20,7 @@ import Heritage from "@/pages/heritage";
 import Chats from "@/pages/chats";
 import VideoRoom from "@/pages/video-room";
 import Settings from "@/pages/settings";
+import Notifications from "@/pages/notifications";
 
 function Router() {
   return (
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/chats" component={Chats} />
       <Route path="/video-room" component={VideoRoom} />
       <Route path="/settings" component={Settings} />
+      <Route path="/notifications" component={Notifications} />
       <Route component={NotFound} />
     </Switch>
   );
