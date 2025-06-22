@@ -8,10 +8,13 @@ import PostCard from "@/components/PostCard";
 import StoriesSection from "@/components/StoriesSection";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
-import { Bell, Menu } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { MessageCircle, Menu, Video, Send, Search } from "lucide-react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [quickThought, setQuickThought] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -82,15 +85,15 @@ export default function Home() {
         </Button>
         
         <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-teal-500 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#936cbf] to-[#f38e57] bg-clip-text text-transparent">
             Kinnren
           </h1>
           <p className="text-xs text-gray-500 -mt-1">Revisiting the memories</p>
         </div>
         
-        <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-100 rounded-lg relative">
-          <Bell className="h-6 w-6 text-gray-700" />
-          <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+        <Button variant="ghost" size="sm" className="p-2 hover:bg-blue-100 rounded-lg relative" onClick={() => window.location.href = "/chats"}>
+          <MessageCircle className="h-6 w-6 text-[#936cbf]" />
+          <span className="absolute -top-1 -right-1 bg-[#d65d8b] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
             3
           </span>
         </Button>
@@ -156,14 +159,14 @@ export default function Home() {
       {/* Bottom Navigation */}
       <BottomNavigation />
 
-      {/* Floating Action Button */}
+      {/* Floating Video Call Button */}
       <div className="fixed bottom-24 right-6 z-30">
         <Button
-          className="bg-teal-500 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-bounce-in"
+          className="bg-[#936cbf] hover:bg-[#7a5ca8] text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
           size="sm"
-          onClick={() => window.location.href = "/story-time"}
+          onClick={() => window.location.href = "/video-room"}
         >
-          <div className="fas fa-camera text-xl">📷</div>
+          <Video className="h-6 w-6" />
         </Button>
       </div>
 

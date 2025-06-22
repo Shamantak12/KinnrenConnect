@@ -13,24 +13,24 @@
   --card-foreground: hsl(20, 14.3%, 4.1%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(351, 83%, 69%);
+  --primary: hsl(263, 45%, 58%); /* #936cbf */
   --primary-foreground: hsl(0, 0%, 98%);
-  --secondary: hsl(174, 59%, 60%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(50, 100%, 60%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
+  --secondary: hsl(25, 87%, 66%); /* #f38e57 */
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(336, 58%, 60%); /* #d65d8b */
+  --accent-foreground: hsl(0, 0%, 98%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
   /* Custom Kinnren colors */
-  --kinnren-primary: hsl(351, 83%, 69%);
-  --kinnren-secondary: hsl(174, 59%, 60%);
-  --kinnren-accent: hsl(50, 100%, 60%);
+  --kinnren-primary: hsl(263, 45%, 58%); /* #936cbf */
+  --kinnren-secondary: hsl(25, 87%, 66%); /* #f38e57 */
+  --kinnren-accent: hsl(336, 58%, 60%); /* #d65d8b */
+  --kinnren-hover: hsl(220, 80%, 85%); /* Light blue hover instead of yellow */
   --kinnren-sage: hsl(146, 38%, 69%);
   --kinnren-sky: hsl(201, 71%, 55%);
-  --kinnren-purple: hsl(254, 77%, 65%);
 }
 
 .dark {
