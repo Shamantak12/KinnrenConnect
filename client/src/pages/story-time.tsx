@@ -1,293 +1,291 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ArrowLeft, BookOpen, Plus, Play, Eye, Camera } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft, BookOpen, Plus, Play, Eye, Camera, Mic, Headphones, Users, Heart, Clock } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function StoryTime() {
-  const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [content, setContent] = useState("");
   const [selectedStory, setSelectedStory] = useState<any>(null);
-  
-  const { user } = useAuth();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
-  // Fetch stories
-  const { data: stories = [] } = useQuery({
-    queryKey: ["/api/stories"],
-    enabled: !!user,
-    retry: false,
-  });
+  // Recorded family stories data
+  const recordedStories = [
+    {
+      id: 1,
+      title: "Grandpa's War Stories",
+      narrator: "Robert Johnson",
+      duration: "12:45",
+      recordedDate: "2024-06-15",
+      thumbnail: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      description: "Stories from WWII and life in the 1940s",
+      plays: 23,
+      likes: 8,
+      category: "History"
+    },
+    {
+      id: 2,
+      title: "Mom's Childhood Adventures",
+      narrator: "Sarah Johnson",
+      duration: "8:30",
+      recordedDate: "2024-06-18",
+      thumbnail: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      description: "Growing up in the countryside in the 80s",
+      plays: 15,
+      likes: 12,
+      category: "Childhood"
+    },
+    {
+      id: 3,
+      title: "Our First Family Vacation",
+      narrator: "Mike Johnson",
+      duration: "15:20",
+      recordedDate: "2024-06-20",
+      thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      description: "The epic road trip to Yellowstone in 1995",
+      plays: 31,
+      likes: 18,
+      category: "Travel"
+    },
+    {
+      id: 4,
+      title: "Grandma's Secret Recipes",
+      narrator: "Emma Johnson",
+      duration: "6:15",
+      recordedDate: "2024-06-19",
+      thumbnail: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      description: "Traditional family recipes passed down through generations",
+      plays: 19,
+      likes: 14,
+      category: "Cooking"
+    }
+  ];
 
-  // Create story mutation
-  const createStory = useMutation({
-    mutationFn: async () => {
-      await apiRequest("POST", "/api/stories", {
-        content,
-        imageUrl: null,
-        videoUrl: null,
-      });
+  const visualStories = [
+    {
+      id: 1,
+      content: "Beach day with the family!",
+      imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop",
+      user: { firstName: "Sarah", lastName: "Doe" },
+      createdAt: "2024-06-22T10:00:00Z",
+      views: 5
     },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Story created successfully!",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/stories"] });
-      setShowCreateDialog(false);
-      setContent("");
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to create story",
-        variant: "destructive",
-      });
-    },
-  });
+    {
+      id: 2,
+      content: "Emma's first steps captured on video!",
+      videoUrl: "/placeholder-video.mp4",
+      user: { firstName: "Mike", lastName: "Doe" },
+      createdAt: "2024-06-21T15:30:00Z",
+      views: 12
+    }
+  ];
 
-  // View story mutation
-  const viewStory = useMutation({
-    mutationFn: async (storyId: number) => {
-      await apiRequest("POST", `/api/stories/${storyId}/view`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/stories"] });
-    },
-  });
-
-  const handleCreate = () => {
-    if (!content.trim()) return;
-    createStory.mutate();
+  const playStory = (story: any) => {
+    setSelectedStory(story);
+    toast({
+      title: "Playing Story",
+      description: `Now playing: ${story.title}`,
+    });
   };
 
-  const handleViewStory = (story: any) => {
-    setSelectedStory(story);
-    viewStory.mutate(story.id);
+  const likeStory = (storyId: number) => {
+    toast({
+      title: "Story Liked",
+      description: "Added to your favorites!",
+    });
   };
 
   return (
     <div className="min-h-screen max-w-md mx-auto bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => window.history.back()}
-            className="p-2 hover:bg-gray-100 rounded-lg mr-3"
-          >
-            <ArrowLeft className="h-6 w-6 text-gray-700" />
-          </Button>
-          <h1 className="text-xl font-semibold text-gray-800">Story Time</h1>
-        </div>
-        
-        <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-          <DialogTrigger asChild>
-            <Button className="bg-yellow-500 hover:bg-yellow-600" size="sm">
-              <Plus className="h-4 w-4 mr-1" />
-              Story
+      <header className="bg-gradient-to-r from-[#936cbf] to-[#f38e57] text-white px-4 py-4 sticky top-0 z-40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.history.back()}
+              className="text-white hover:bg-white/20 p-2"
+            >
+              <ArrowLeft className="h-6 w-6" />
             </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-sm mx-auto">
-            <DialogHeader>
-              <DialogTitle>Share Your Story</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Input
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="What's happening in your day?"
-                  className="min-h-20"
-                />
-              </div>
-              <div className="flex space-x-2">
-                <Button variant="outline" className="flex-1">
-                  <Camera className="h-4 w-4 mr-1" />
-                  Photo
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  <Play className="h-4 w-4 mr-1" />
-                  Video
-                </Button>
-              </div>
-              <Button
-                onClick={handleCreate}
-                disabled={!content.trim() || createStory.isPending}
-                className="w-full bg-yellow-500 hover:bg-yellow-600"
-              >
-                {createStory.isPending ? "Sharing..." : "Share Story"}
-              </Button>
+            <div>
+              <h1 className="text-xl font-bold">Story Time</h1>
+              <p className="text-sm text-white/80">Share and listen to family stories</p>
             </div>
-          </DialogContent>
-        </Dialog>
+          </div>
+          <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30" size="sm">
+            <Plus className="h-4 w-4 mr-1" />
+            Record
+          </Button>
+        </div>
       </header>
 
-      <div className="p-4 space-y-6">
-        {/* Active Stories */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <BookOpen className="h-5 w-5 text-yellow-500" />
-              <span>Family Stories</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {stories.length === 0 ? (
-              <div className="text-center py-8">
-                <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 mb-2">No stories yet</p>
-                <p className="text-sm text-gray-500">Share your first family moment</p>
+      <Tabs defaultValue="recorded" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 sticky top-20 z-30 bg-white border-b">
+          <TabsTrigger value="recorded">Audio Stories</TabsTrigger>
+          <TabsTrigger value="visual">Visual Stories</TabsTrigger>
+        </TabsList>
+
+        {/* Recorded Stories Tab */}
+        <TabsContent value="recorded" className="p-4 space-y-4">
+          {/* Featured Story */}
+          <Card className="overflow-hidden border-l-4 border-l-[#936cbf]">
+            <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 p-4">
+              <div className="flex items-center space-x-2 mb-2">
+                <Headphones className="h-5 w-5 text-[#936cbf]" />
+                <span className="font-semibold text-[#936cbf]">Featured Story</span>
               </div>
-            ) : (
-              <div className="grid grid-cols-3 gap-3">
-                {stories.map((story: any) => (
-                  <div
-                    key={story.id}
-                    className="relative cursor-pointer"
-                    onClick={() => handleViewStory(story)}
-                  >
-                    <div className="story-gradient p-0.5 rounded-xl">
-                      <div className="w-20 h-20 bg-gray-200 rounded-xl flex items-center justify-center relative overflow-hidden">
-                        {story.imageUrl ? (
-                          <img
-                            src={story.imageUrl}
-                            alt="Story"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="text-2xl">📖</div>
-                        )}
-                        <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                          <Play className="h-6 w-6 text-white" />
-                        </div>
+              <h3 className="text-lg font-bold text-gray-900">Family Story Collection</h3>
+              <p className="text-sm text-gray-600">4 recorded stories • 42 min total</p>
+            </div>
+          </Card>
+
+          {/* Story List */}
+          <div className="space-y-3">
+            {recordedStories.map((story) => (
+              <Card key={story.id} className="overflow-hidden">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="relative">
+                      <img
+                        src={story.thumbnail}
+                        alt={story.narrator}
+                        className="w-16 h-16 rounded-full"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Button
+                          size="sm"
+                          onClick={() => playStory(story)}
+                          className="w-8 h-8 rounded-full bg-[#936cbf] hover:bg-[#7a5ca8] p-0"
+                        >
+                          <Play className="h-4 w-4 text-white ml-0.5" />
+                        </Button>
                       </div>
                     </div>
-                    <p className="text-xs text-center mt-1 text-gray-700 truncate">
-                      {story.user?.firstName || 'Family'}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Story Stats */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Story Statistics</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <div className="text-2xl font-bold text-yellow-500">{stories.length}</div>
-                <div className="text-sm text-gray-600">Stories</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-blue-500">
-                  {stories.reduce((acc: number, story: any) => acc + (story.viewsCount || 0), 0)}
-                </div>
-                <div className="text-sm text-gray-600">Views</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-green-500">24h</div>
-                <div className="text-sm text-gray-600">Duration</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Stories */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Stories</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {stories.slice(0, 5).map((story: any) => (
-              <div key={story.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <BookOpen className="h-6 w-6 text-yellow-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-800 truncate">{story.content}</p>
-                  <div className="flex items-center space-x-2 text-xs text-gray-500 mt-1">
-                    <span>{story.user?.firstName || 'Family'}</span>
-                    <span>•</span>
-                    <span>{formatDistanceToNow(new Date(story.createdAt), { addSuffix: true })}</span>
-                    <span>•</span>
-                    <div className="flex items-center space-x-1">
-                      <Eye className="h-3 w-3" />
-                      <span>{story.viewsCount || 0}</span>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-1">
+                        <h4 className="font-semibold text-gray-900 text-sm">{story.title}</h4>
+                        <Badge variant="outline" className="text-xs">
+                          {story.category}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-gray-600 mb-2">by {story.narrator}</p>
+                      <p className="text-xs text-gray-500 mb-2">{story.description}</p>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3 text-xs text-gray-500">
+                          <div className="flex items-center space-x-1">
+                            <Clock className="h-3 w-3" />
+                            <span>{story.duration}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <Eye className="h-3 w-3" />
+                            <span>{story.plays} plays</span>
+                          </div>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => likeStory(story.id)}
+                          className="h-6 px-2"
+                        >
+                          <Heart className="h-3 w-3 mr-1" />
+                          {story.likes}
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Story Tips */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Story Tips</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-gray-600">
-            <p>• Stories disappear after 24 hours</p>
-            <p>• Share daily moments with your family</p>
-            <p>• Add photos or videos to make them engaging</p>
-            <p>• View family members' stories to stay connected</p>
-          </CardContent>
-        </Card>
-      </div>
+          {/* Recording Tips */}
+          <Card className="bg-gradient-to-r from-[#f38e57]/10 to-[#d65d8b]/10">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2 mb-2">
+                <Mic className="h-5 w-5 text-[#f38e57]" />
+                <h3 className="font-semibold text-gray-900">Recording Tips</h3>
+              </div>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• Find a quiet space for recording</li>
+                <li>• Share personal experiences and emotions</li>
+                <li>• Include specific dates and locations</li>
+                <li>• Keep stories between 5-15 minutes</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Story Viewer Modal */}
+        {/* Visual Stories Tab */}
+        <TabsContent value="visual" className="p-4 space-y-4">
+          <div className="space-y-4">
+            {visualStories.map((story) => (
+              <Card key={story.id}>
+                <CardHeader>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-[#936cbf] to-[#f38e57] rounded-full flex items-center justify-center text-white font-bold">
+                      {story.user.firstName[0]}
+                    </div>
+                    <div>
+                      <h4 className="font-medium">{story.user.firstName} {story.user.lastName}</h4>
+                      <p className="text-sm text-gray-500">2 hours ago</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="mb-3">{story.content}</p>
+                  {story.imageUrl && (
+                    <img
+                      src={story.imageUrl}
+                      alt="Story"
+                      className="w-full rounded-lg mb-3"
+                    />
+                  )}
+                  <div className="flex items-center justify-between text-sm text-gray-500">
+                    <div className="flex items-center space-x-4">
+                      <Button variant="ghost" size="sm" className="h-8 px-2">
+                        <Eye className="h-4 w-4 mr-1" />
+                        {story.views}
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      {/* Currently Playing */}
       {selectedStory && (
-        <Dialog open={!!selectedStory} onOpenChange={() => setSelectedStory(null)}>
-          <DialogContent className="max-w-sm mx-auto">
-            <div className="space-y-4">
+        <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto">
+          <Card className="bg-white shadow-lg border-2 border-[#936cbf]">
+            <CardContent className="p-3">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                  <span className="font-bold text-yellow-600">
-                    {selectedStory.user?.firstName?.[0] || 'F'}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-semibold">{selectedStory.user?.firstName || 'Family'}</h3>
-                  <p className="text-sm text-gray-500">
-                    {formatDistanceToNow(new Date(selectedStory.createdAt), { addSuffix: true })}
-                  </p>
-                </div>
-              </div>
-              
-              {selectedStory.imageUrl && (
                 <img
-                  src={selectedStory.imageUrl}
-                  alt="Story"
-                  className="w-full rounded-lg"
+                  src={selectedStory.thumbnail}
+                  alt={selectedStory.narrator}
+                  className="w-10 h-10 rounded-full"
                 />
-              )}
-              
-              <p className="text-gray-800">{selectedStory.content}</p>
-              
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <div className="flex items-center space-x-1">
-                  <Eye className="h-4 w-4" />
-                  <span>{selectedStory.viewsCount || 0} views</span>
+                <div className="flex-1">
+                  <h4 className="font-medium text-sm">{selectedStory.title}</h4>
+                  <p className="text-xs text-gray-600">by {selectedStory.narrator}</p>
                 </div>
-                <span>Expires in {Math.max(0, Math.ceil((new Date(selectedStory.expiresAt).getTime() - Date.now()) / (1000 * 60 * 60)))}h</span>
+                <Button
+                  size="sm"
+                  onClick={() => setSelectedStory(null)}
+                  className="bg-[#936cbf] hover:bg-[#7a5ca8] h-8 w-8 p-0"
+                >
+                  <Play className="h-4 w-4" />
+                </Button>
               </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
