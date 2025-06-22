@@ -38,23 +38,12 @@ export default function Home() {
 
   const handleLike = useMutation({
     mutationFn: async (postId: number) => {
-      await apiRequest("POST", `/api/posts/${postId}/like`);
+      await apiRequest(`/api/posts/${postId}/like`, "POST");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
       toast({
         title: "Error",
         description: "Failed to update like status",
@@ -65,23 +54,12 @@ export default function Home() {
 
   const handleBookmark = useMutation({
     mutationFn: async (postId: number) => {
-      await apiRequest("POST", `/api/posts/${postId}/bookmark`);
+      await apiRequest(`/api/posts/${postId}/bookmark`, "POST");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
       toast({
         title: "Error",
         description: "Failed to update bookmark status",
@@ -89,33 +67,6 @@ export default function Home() {
       });
     },
   });
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500"></div>
-      </div>
-    );
-  }
-
-  if (!user?.familyId) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Welcome to Kinnren!</h2>
-          <p className="text-gray-600 mb-6">
-            You need to create or join a family to start sharing memories.
-          </p>
-          <Button 
-            onClick={() => window.location.href = "/profile"}
-            className="bg-gradient-to-r from-pink-500 to-teal-500 hover:from-pink-600 hover:to-teal-600"
-          >
-            Set Up Your Family
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen max-w-md mx-auto bg-white relative">
@@ -145,40 +96,51 @@ export default function Home() {
         </Button>
       </header>
 
-      {/* Sidebar */}
-      <Sidebar 
-        isOpen={sidebarOpen} 
-        onClose={() => setSidebarOpen(false)} 
-        user={user}
-      />
-
-      {/* Sidebar Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"
-          onClick={() => setSidebarOpen(false)}
-        />
+      {/* Stories Section */}
+      {(stories as any[]).length > 0 && (
+        <div className="px-4 py-2 border-b border-gray-100">
+          <StoriesSection stories={stories as any[]} />
+        </div>
       )}
 
-      {/* Stories Section */}
-      <StoriesSection stories={stories} />
-
-      {/* Main Feed */}
-      <main className="pb-20">
+      {/* Main Content */}
+      <main className="flex-1 pb-20">
         {postsLoading ? (
-          <div className="p-6 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading posts...</p>
+          <div className="p-4 space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-gray-100 rounded-lg p-4 animate-pulse">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+                  <div className="space-y-1">
+                    <div className="h-4 bg-gray-300 rounded w-20"></div>
+                    <div className="h-3 bg-gray-300 rounded w-16"></div>
+                  </div>
+                </div>
+                <div className="h-20 bg-gray-300 rounded mb-3"></div>
+                <div className="flex space-x-4">
+                  <div className="h-8 bg-gray-300 rounded w-16"></div>
+                  <div className="h-8 bg-gray-300 rounded w-16"></div>
+                </div>
+              </div>
+            ))}
           </div>
-        ) : posts.length === 0 ? (
-          <div className="p-6 text-center">
-            <p className="text-gray-600 mb-4">No posts yet! Be the first to share a memory.</p>
+        ) : (posts as any[]).length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
+            <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-teal-100 rounded-full flex items-center justify-center mb-6">
+              <div className="text-4xl">👨‍👩‍👧‍👦</div>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              Welcome to Your Family Circle
+            </h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Start sharing precious moments with your loved ones. Create your first post to begin building beautiful memories together.
+            </p>
             <Button className="bg-gradient-to-r from-pink-500 to-teal-500 hover:from-pink-600 hover:to-teal-600">
               Create Your First Post
             </Button>
           </div>
         ) : (
-          posts.map((post: any) => (
+          (posts as any[]).map((post: any) => (
             <PostCard
               key={post.id}
               post={post}
@@ -204,6 +166,13 @@ export default function Home() {
           <div className="fas fa-camera text-xl">📷</div>
         </Button>
       </div>
+
+      {/* Sidebar */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        user={user}
+      />
     </div>
   );
 }
