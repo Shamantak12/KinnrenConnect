@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "wouter";
 import { 
   MapPin, 
   Gamepad2, 
@@ -24,18 +25,18 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { icon: MapPin, label: "Family Map", color: "text-pink-500" },
-  { icon: Gamepad2, label: "Family Games", color: "text-teal-500" },
-  { icon: MessageSquare, label: "Anonymous Chat", color: "text-purple-500" },
-  { icon: Mountain, label: "Family Outings", color: "text-green-500" },
-  { icon: Calendar, label: "Calendar", color: "text-blue-500" },
-  { icon: GitBranch, label: "Family Tree", color: "text-pink-500" },
-  { icon: BookOpen, label: "Story Time", color: "text-yellow-500" },
-  { icon: Archive, label: "Time Capsule", color: "text-teal-500" },
-  { icon: Video, label: "Video Montage", color: "text-purple-500" },
-  { icon: Share2, label: "Share Post", color: "text-blue-500" },
-  { icon: Bookmark, label: "Bookmarks", color: "text-green-500" },
-  { icon: Landmark, label: "Heritage", color: "text-pink-500" },
+  { icon: MapPin, label: "Family Map", color: "text-pink-500", path: "/family-map" },
+  { icon: Gamepad2, label: "Family Games", color: "text-teal-500", path: "/family-games" },
+  { icon: MessageSquare, label: "Anonymous Chat", color: "text-purple-500", path: "/anonymous-chat" },
+  { icon: Mountain, label: "Family Outings", color: "text-green-500", path: "/family-outings" },
+  { icon: Calendar, label: "Calendar", color: "text-blue-500", path: "/calendar" },
+  { icon: GitBranch, label: "Family Tree", color: "text-pink-500", path: "/family-tree" },
+  { icon: BookOpen, label: "Story Time", color: "text-yellow-500", path: "/story-time" },
+  { icon: Archive, label: "Time Capsule", color: "text-teal-500", path: "/time-capsule" },
+  { icon: Video, label: "Video Montage", color: "text-purple-500", path: "/video-montage" },
+  { icon: Share2, label: "Share Post", color: "text-blue-500", path: "/" },
+  { icon: Bookmark, label: "Bookmarks", color: "text-green-500", path: "/bookmarks" },
+  { icon: Landmark, label: "Heritage", color: "text-pink-500", path: "/heritage" },
 ];
 
 export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
@@ -72,18 +73,16 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
       {/* Menu Items */}
       <div className="p-4 space-y-2 overflow-y-auto h-full pb-24">
         {menuItems.map((item, index) => (
-          <Button
-            key={index}
-            variant="ghost"
-            className="w-full justify-start p-3 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
-            onClick={() => {
-              // Handle navigation here
-              console.log(`Navigate to ${item.label}`);
-            }}
-          >
-            <item.icon className={`h-5 w-5 mr-3 ${item.color}`} />
-            <span>{item.label}</span>
-          </Button>
+          <Link key={index} href={item.path}>
+            <Button
+              variant="ghost"
+              className="w-full justify-start p-3 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
+              onClick={onClose}
+            >
+              <item.icon className={`h-5 w-5 mr-3 ${item.color}`} />
+              <span>{item.label}</span>
+            </Button>
+          </Link>
         ))}
         
         <Separator className="my-4" />

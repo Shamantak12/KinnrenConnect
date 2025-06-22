@@ -209,6 +209,7 @@ export default function Home() {
         <Button
           className="bg-teal-500 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-bounce-in"
           size="sm"
+          onClick={() => window.location.href = "/story-time"}
         >
           <div className="fas fa-camera text-xl">📷</div>
         </Button>
