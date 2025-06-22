@@ -22,6 +22,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       {
         id: 1,
         content: "Having a wonderful family dinner tonight! 🍽️",
+        imageUrl: "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=300&fit=crop",
         createdAt: new Date().toISOString(),
         user: {
           firstName: "Sarah",
@@ -34,6 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       {
         id: 2,
         content: "Kids' soccer game today - they played amazingly! ⚽",
+        imageUrl: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop",
         createdAt: new Date(Date.now() - 3600000).toISOString(),
         user: {
           firstName: "Mike",
@@ -42,6 +44,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
         isLiked: true,
         isBookmarked: false
+      },
+      {
+        id: 3,
+        content: "Beautiful sunset from our balcony today 🌅",
+        imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
+        createdAt: new Date(Date.now() - 7200000).toISOString(),
+        user: {
+          firstName: "Emma",
+          lastName: "Davis",
+          profileImageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+        },
+        isLiked: false,
+        isBookmarked: true
       }
     ]);
   });

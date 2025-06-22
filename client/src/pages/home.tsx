@@ -257,16 +257,7 @@ export default function Home() {
       {/* Bottom Navigation */}
       <BottomNavigation />
 
-      {/* Floating Video Call Button */}
-      <div className="fixed bottom-24 right-6 z-30">
-        <Button
-          className="bg-[#936cbf] hover:bg-[#7a5ca8] text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
-          size="sm"
-          onClick={() => window.location.href = "/video-room"}
-        >
-          <Video className="h-6 w-6" />
-        </Button>
-      </div>
+
 
       {/* Sidebar */}
       <Sidebar

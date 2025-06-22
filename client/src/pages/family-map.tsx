@@ -87,6 +87,44 @@ export default function FamilyMap() {
       </div>
 
       <div className="p-4 space-y-6">
+        {/* Location Access */}
+        <Card className="border-l-4 border-l-[#936cbf]">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Navigation className="h-5 w-5 text-[#936cbf]" />
+                <div>
+                  <h3 className="font-medium text-gray-900">Enable Location</h3>
+                  <p className="text-sm text-gray-600">Share your location with family</p>
+                </div>
+              </div>
+              <Button
+                onClick={() => {
+                  navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                      toast({
+                        title: "Location Enabled",
+                        description: "Your location is now shared with family",
+                      });
+                    },
+                    (error) => {
+                      toast({
+                        title: "Location Access",
+                        description: "Please enable location permissions in your browser",
+                        variant: "destructive",
+                      });
+                    }
+                  );
+                }}
+                className="bg-[#936cbf] hover:bg-[#7a5ca8] text-white"
+                size="sm"
+              >
+                Enable
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Map Placeholder */}
         <Card className="h-64 bg-gradient-to-br from-[#936cbf]/20 to-[#f38e57]/20 flex items-center justify-center">
           <div className="text-center">
