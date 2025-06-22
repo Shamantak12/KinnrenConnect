@@ -6,6 +6,7 @@ import { Home, Search, MessageSquare, Heart, User, Video, Users } from "lucide-r
 
 export default function BottomNavigation() {
   const [location] = useLocation();
+  const [showChatDialog, setShowChatDialog] = useState(false);
 
   const navItems = [
     { icon: Home, label: "Home", path: "/", active: location === "/" },
@@ -31,11 +32,41 @@ export default function BottomNavigation() {
           </Link>
         ))}
         
-        <Link href="/video-room">
-          <Button className="flex flex-col items-center p-2 bg-gradient-to-r from-[#936cbf] to-[#f38e57] rounded-full w-12 h-12 justify-center hover:opacity-90">
-            <Video className="h-6 w-6 text-white" />
-          </Button>
-        </Link>
+        <Dialog open={showChatDialog} onOpenChange={setShowChatDialog}>
+          <DialogTrigger asChild>
+            <Button className="flex flex-col items-center p-2 bg-gradient-to-r from-[#936cbf] to-[#f38e57] rounded-full w-12 h-12 justify-center hover:opacity-90">
+              <MessageSquare className="h-6 w-6 text-white" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-sm mx-auto">
+            <DialogHeader>
+              <DialogTitle>Choose Chat Type</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-3">
+              <Button
+                onClick={() => {
+                  setShowChatDialog(false);
+                  window.location.href = "/video-room";
+                }}
+                className="w-full bg-[#936cbf] hover:bg-[#7a5ca8] text-white flex items-center justify-center space-x-2"
+              >
+                <Video className="h-5 w-5" />
+                <span>Video Chat with Family</span>
+              </Button>
+              <Button
+                onClick={() => {
+                  setShowChatDialog(false);
+                  window.location.href = "/chats";
+                }}
+                variant="outline"
+                className="w-full border-[#f38e57] text-[#f38e57] hover:bg-[#f38e57] hover:text-white flex items-center justify-center space-x-2"
+              >
+                <Users className="h-5 w-5" />
+                <span>Chat with Other Families</span>
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
         
         {navItems.slice(2).map((item) => (
           <Link key={item.path} href={item.path}>

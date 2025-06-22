@@ -8,14 +8,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Users, Settings, LogOut } from "lucide-react";
+import { ArrowLeft, Users, Settings, LogOut, Trophy, Star, Award, Target, Crown, Gift } from "lucide-react";
 
 export default function Profile() {
   const [familyName, setFamilyName] = useState("");
   const [familyDescription, setFamilyDescription] = useState("");
   const [familyIdToJoin, setFamilyIdToJoin] = useState("");
   
-  const { user } = useAuth();
+  // Mock user for demo
+  const user = {
+    id: "1",
+    firstName: "John",
+    lastName: "Doe",
+    profileImageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    familyId: "family-1",
+    points: 2450,
+    level: 8,
+    achievements: [
+      { id: 1, name: "Story Master", description: "Shared 10 family stories", icon: "📚", earned: true },
+      { id: 2, name: "Game Champion", description: "Won 5 family games", icon: "🎮", earned: true },
+      { id: 3, name: "Memory Keeper", description: "Added 20 photos", icon: "📸", earned: true },
+      { id: 4, name: "Social Butterfly", description: "Connect with 5 families", icon: "🦋", earned: false },
+      { id: 5, name: "Time Traveler", description: "Create 3 time capsules", icon: "⏰", earned: false }
+    ]
+  };
+  
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
