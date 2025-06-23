@@ -3,11 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { ArrowLeft, BookOpen, Plus, Play, Eye, Camera, Mic, Headphones, Users, Heart, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function StoryTime() {
   const [selectedStory, setSelectedStory] = useState<any>(null);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [storyTopic, setStoryTopic] = useState("");
+  const [storyDescription, setStoryDescription] = useState("");
   const { toast } = useToast();
 
   // Recorded family stories data
@@ -115,9 +122,13 @@ export default function StoryTime() {
               <p className="text-sm text-white/80">Share and listen to family stories</p>
             </div>
           </div>
-          <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30" size="sm">
+          <Button 
+            className="bg-white/20 hover:bg-white/30 text-white border-white/30" 
+            size="sm"
+            onClick={() => setShowCreateDialog(true)}
+          >
             <Plus className="h-4 w-4 mr-1" />
-            Record
+            Create Story
           </Button>
         </div>
       </header>
@@ -287,6 +298,64 @@ export default function StoryTime() {
           </Card>
         </div>
       )}
+
+      {/* Story Creation Dialog */}
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogContent className="max-w-sm mx-auto">
+          <DialogHeader>
+            <DialogTitle>Create New Story</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="topic">Story Topic</Label>
+              <Input
+                id="topic"
+                placeholder="Enter the main topic or theme"
+                value={storyTopic}
+                onChange={(e) => setStoryTopic(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                placeholder="Describe what this story is about..."
+                value={storyDescription}
+                onChange={(e) => setStoryDescription(e.target.value)}
+                rows={3}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                variant="outline"
+                className="flex flex-col items-center p-4 h-auto border-[#936cbf] text-[#936cbf] hover:bg-[#936cbf] hover:text-white"
+                onClick={() => {
+                  toast({ title: "Recording Started", description: "Audio story recording has begun" });
+                  setShowCreateDialog(false);
+                  setStoryTopic("");
+                  setStoryDescription("");
+                }}
+              >
+                <Mic className="h-6 w-6 mb-2" />
+                <span className="text-sm">Record Audio</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="flex flex-col items-center p-4 h-auto border-[#f38e57] text-[#f38e57] hover:bg-[#f38e57] hover:text-white"
+                onClick={() => {
+                  toast({ title: "Camera Opened", description: "Visual story creation started" });
+                  setShowCreateDialog(false);
+                  setStoryTopic("");
+                  setStoryDescription("");
+                }}
+              >
+                <Camera className="h-6 w-6 mb-2" />
+                <span className="text-sm">Visual Story</span>
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

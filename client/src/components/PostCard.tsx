@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Share, Flag, Trash2, Edit } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 interface PostCardProps {
@@ -39,9 +40,31 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
             <p className="text-xs text-gray-500">{timeAgo}</p>
           </div>
         </div>
-        <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-100 rounded-full">
-          <MoreHorizontal className="h-5 w-5 text-gray-600" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
+              <MoreHorizontal className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem className="flex items-center space-x-2">
+              <Share className="h-4 w-4" />
+              <span>Share Post</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex items-center space-x-2">
+              <Edit className="h-4 w-4" />
+              <span>Edit Post</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex items-center space-x-2">
+              <Flag className="h-4 w-4" />
+              <span>Report</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex items-center space-x-2 text-red-600 dark:text-red-400">
+              <Trash2 className="h-4 w-4" />
+              <span>Delete Post</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       
       {/* Post Image */}

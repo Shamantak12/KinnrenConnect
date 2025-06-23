@@ -9,12 +9,14 @@ import StoriesSection from "@/components/StoriesSection";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { MessageCircle, Menu, Video, Send, Search, Bell, Camera, Image, Plus, Target, Trophy, Users } from "lucide-react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [quickThought, setQuickThought] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showGroupDialog, setShowGroupDialog] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -74,12 +76,14 @@ export default function Home() {
   return (
     <div className="min-h-screen max-w-md mx-auto bg-white relative">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <Button variant="ghost" size="sm" className="p-2 hover:bg-blue-100 rounded-lg relative" onClick={() => window.location.href = "/chats"}>
-          <MessageCircle className="h-6 w-6 text-[#936cbf]" />
-          <span className="absolute -top-1 -right-1 bg-[#d65d8b] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-            3
-          </span>
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+        >
+          <Menu className="h-6 w-6 text-gray-700 dark:text-gray-300" />
         </Button>
         
         <div className="flex flex-col items-center">
@@ -88,26 +92,28 @@ export default function Home() {
           </h1>
         </div>
         
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => window.location.href = "/notifications"}
-          className="p-2 hover:bg-gray-100 rounded-lg relative"
-        >
-          <Bell className="h-6 w-6 text-gray-700" />
-          <span className="absolute -top-1 -right-1 bg-[#f38e57] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-            2
-          </span>
-        </Button>
-        
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setSidebarOpen(true)}
-          className="p-2 hover:bg-gray-100 rounded-lg"
-        >
-          <Menu className="h-6 w-6 text-gray-700" />
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => window.location.href = "/notifications"}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg relative"
+          >
+            <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+            <span className="absolute -top-1 -right-1 bg-[#f38e57] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+              2
+            </span>
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowGroupDialog(true)}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+          >
+            <Plus className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+          </Button>
+        </div>
       </header>
 
 
@@ -258,6 +264,28 @@ export default function Home() {
       <BottomNavigation />
 
 
+
+      {/* Group Creation Dialog */}
+      <Dialog open={showGroupDialog} onOpenChange={setShowGroupDialog}>
+        <DialogContent className="max-w-sm mx-auto">
+          <DialogHeader>
+            <DialogTitle>Create Group</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Create a new group with family members</p>
+            <Button
+              onClick={() => {
+                setShowGroupDialog(false);
+                window.location.href = "/chats";
+              }}
+              className="w-full bg-gradient-to-r from-[#936cbf] to-[#f38e57] hover:opacity-90 text-white flex items-center justify-center space-x-2"
+            >
+              <Users className="h-5 w-5" />
+              <span>Create New Group</span>
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Sidebar */}
       <Sidebar
