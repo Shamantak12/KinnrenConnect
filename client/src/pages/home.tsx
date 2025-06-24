@@ -77,13 +77,16 @@ export default function Home() {
     <div className="min-h-screen max-w-md mx-auto bg-white relative">
       {/* Header */}
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          onClick={() => setSidebarOpen(true)}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => window.location.href = "/notifications"}
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg relative"
         >
-          <Menu className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+          <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+          <span className="absolute -top-1 -right-1 bg-[#f38e57] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            2
+          </span>
         </Button>
         
         <div className="flex flex-col items-center">
@@ -96,22 +99,19 @@ export default function Home() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => window.location.href = "/notifications"}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg relative"
-          >
-            <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-            <span className="absolute -top-1 -right-1 bg-[#f38e57] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              2
-            </span>
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={() => setShowGroupDialog(true)}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
           >
             <Plus className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+          </Button>
+          
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+          >
+            <Menu className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </Button>
         </div>
       </header>

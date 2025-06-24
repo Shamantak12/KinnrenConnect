@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "wouter";
-import { useTheme } from "@/hooks/useTheme";
 import { 
   MapPin, 
   Gamepad2, 
@@ -16,8 +15,6 @@ import {
   Bookmark, 
   Landmark, 
   Settings,
-  Moon,
-  Sun,
   X 
 } from "lucide-react";
 
@@ -42,8 +39,6 @@ const menuItems = [
 ];
 
 export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
-  const { theme, toggleTheme } = useTheme();
-  
   return (
     <nav 
       className={`fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ${
@@ -90,19 +85,6 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
         ))}
         
         <Separator className="my-4" />
-        
-        <Button
-          variant="ghost"
-          className="w-full justify-start p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
-          onClick={toggleTheme}
-        >
-          {theme === "light" ? (
-            <Moon className="h-5 w-5 mr-3 text-[#936cbf]" />
-          ) : (
-            <Sun className="h-5 w-5 mr-3 text-[#f38e57]" />
-          )}
-          <span>{theme === "light" ? "Dark Mode" : "Light Mode"}</span>
-        </Button>
         
         <Link href="/settings">
           <Button

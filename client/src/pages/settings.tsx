@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, MessageCircle, Bell, User, Shield, Eye, Volume2, Moon, Globe, HelpCircle, LogOut, ChevronRight } from "lucide-react";
+import { useTheme } from "@/hooks/useTheme";
+import { ArrowLeft, MessageCircle, Bell, User, Shield, Eye, Volume2, Moon, Sun, Globe, HelpCircle, LogOut, ChevronRight } from "lucide-react";
 
 export default function Settings() {
+  const { theme, toggleTheme } = useTheme();
+  
   const [chatSettings, setChatSettings] = useState({
     readReceipts: true,
     onlineStatus: true,
@@ -31,7 +34,6 @@ export default function Settings() {
   });
 
   const [accountSettings, setAccountSettings] = useState({
-    darkMode: false,
     language: "English",
     autoSave: true,
     dataUsage: "WiFi Only"
@@ -87,14 +89,14 @@ export default function Settings() {
     { icon: User, label: "Edit Profile", description: "Update your personal information", action: () => window.location.href = "/profile" },
     { icon: Eye, label: "Privacy Policy", description: "Review our privacy policy", action: () => {} },
     { icon: Globe, label: "Language", description: "English", action: () => {} },
-    { icon: Moon, label: "Dark Mode", description: "Toggle dark theme", hasSwitch: true, value: accountSettings.darkMode },
+    { icon: theme === "light" ? Moon : Sun, label: "Dark Mode", description: theme === "light" ? "Switch to dark theme" : "Switch to light theme", hasSwitch: true, value: theme === "dark", action: toggleTheme },
     { icon: Volume2, label: "Data Usage", description: "WiFi Only", action: () => {} },
     { icon: HelpCircle, label: "Help & Support", description: "Get help with Kinnren", action: () => {} },
     { icon: LogOut, label: "Sign Out", description: "Sign out of your account", action: () => {}, danger: true }
   ];
 
   return (
-    <div className="min-h-screen max-w-md mx-auto bg-white">
+    <div className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900">
       {/* Header */}
       <header className="bg-gradient-to-r from-[#936cbf] to-[#f38e57] text-white px-4 py-4 sticky top-0 z-40">
         <div className="flex items-center space-x-3">
@@ -185,9 +187,7 @@ export default function Settings() {
                 {option.hasSwitch ? (
                   <Switch
                     checked={option.value}
-                    onCheckedChange={(checked) => 
-                      setAccountSettings((prev: any) => ({ ...prev, darkMode: checked }))
-                    }
+                    onCheckedChange={option.action}
                     className="data-[state=checked]:bg-[#936cbf]"
                   />
                 ) : (
