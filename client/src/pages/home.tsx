@@ -74,7 +74,7 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen max-w-md mx-auto bg-white relative">
+    <div className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative">
       {/* Header */}
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <Button
@@ -119,36 +119,37 @@ export default function Home() {
 
 
       {/* Quick Thought Sharing - Increased Size */}
-      <div className="px-4 py-4 border-b border-gray-100">
-        <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 rounded-lg p-4">
+      <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800">
+        <div className="bg-gradient-to-r from-[#936cbf]/10 to-[#f38e57]/10 dark:from-[#936cbf]/20 dark:to-[#f38e57]/20 rounded-lg p-4">
           <div className="flex items-start space-x-3 mb-3">
             <img
               src={user.profileImageUrl}
               alt="Profile"
               className="w-10 h-10 rounded-full"
             />
-            <div className="flex-1">
+            <div className="flex-1 relative">
               <textarea
                 placeholder="Share a quick thought, good morning message, or what's on your mind..."
                 value={quickThought}
                 onChange={(e) => setQuickThought(e.target.value)}
-                className="w-full h-20 border-none bg-white/80 focus:bg-white placeholder-gray-500 resize-none rounded-lg p-3 text-sm"
-              /></div>
+                className="w-full h-20 border-none bg-white/80 dark:bg-gray-800/80 dark:text-white focus:bg-white dark:focus:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 resize-none rounded-lg p-3 pr-12 text-sm"
+              />
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute bottom-2 right-2 text-gray-500 hover:bg-white/80 dark:hover:bg-gray-700/80 p-1 rounded"
+                onClick={() => toast({ title: "Emoji picker", description: "Emoji selection feature available" })}
+              >
+                😊
+              </Button>
+            </div>
             <Button
               variant="ghost"
               size="sm"
-              className="text-gray-500 hover:bg-white/80 p-2"
+              className="text-gray-500 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-700/80 p-2"
               onClick={() => toast({ title: "Image picker", description: "Image selection feature available" })}
             >
               <Image className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-gray-500 hover:bg-white/80 p-2"
-              onClick={() => toast({ title: "Emoji picker", description: "Emoji selection feature available" })}
-            >
-              😊
             </Button>
             <Button
               size="sm"
@@ -233,13 +234,13 @@ export default function Home() {
           </div>
         ) : (posts as any[]).length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-            <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-teal-100 rounded-full flex items-center justify-center mb-6">
+            <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-teal-100 dark:from-pink-900/30 dark:to-teal-900/30 rounded-full flex items-center justify-center mb-6">
               <div className="text-4xl">👨‍👩‍👧‍👦</div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
               Welcome to Your Family Circle
             </h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
               Start sharing precious moments with your loved ones. Create your first post to begin building beautiful memories together.
             </p>
             <Button className="bg-gradient-to-r from-pink-500 to-teal-500 hover:from-pink-600 hover:to-teal-600">

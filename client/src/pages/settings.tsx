@@ -187,7 +187,7 @@ export default function Settings() {
                 {option.hasSwitch ? (
                   <Switch
                     checked={option.value}
-                    onCheckedChange={option.action}
+                    onCheckedChange={() => option.action()}
                     className="data-[state=checked]:bg-[#936cbf]"
                   />
                 ) : (

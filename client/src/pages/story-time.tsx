@@ -96,6 +96,14 @@ export default function StoryTime() {
     });
   };
 
+  const viewStory = (story: any) => {
+    setSelectedStory(story);
+    toast({
+      title: "Viewing Story",
+      description: `Now viewing: ${story.title}`,
+    });
+  };
+
   const likeStory = (storyId: number) => {
     toast({
       title: "Story Liked",
@@ -168,7 +176,7 @@ export default function StoryTime() {
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Button
                           size="sm"
-                          onClick={() => playStory(story)}
+                          onClick={() => setSelectedStory(story)}
                           className="w-8 h-8 rounded-full bg-[#936cbf] hover:bg-[#7a5ca8] p-0"
                         >
                           <Play className="h-4 w-4 text-white ml-0.5" />
@@ -263,6 +271,15 @@ export default function StoryTime() {
                         {story.views}
                       </Button>
                     </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => viewStory(story)}
+                      className="border-[#f38e57] text-[#f38e57] hover:bg-[#f38e57] hover:text-white"
+                    >
+                      <Eye className="h-4 w-4 mr-1" />
+                      View
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -330,10 +347,18 @@ export default function StoryTime() {
                 variant="outline"
                 className="flex flex-col items-center p-4 h-auto border-[#936cbf] text-[#936cbf] hover:bg-[#936cbf] hover:text-white"
                 onClick={() => {
-                  toast({ title: "Recording Started", description: "Audio story recording has begun" });
-                  setShowCreateDialog(false);
-                  setStoryTopic("");
-                  setStoryDescription("");
+                  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ audio: true })
+                      .then(() => {
+                        toast({ title: "Recording Started", description: "Audio story recording has begun" });
+                        setShowCreateDialog(false);
+                        setStoryTopic("");
+                        setStoryDescription("");
+                      })
+                      .catch(() => {
+                        toast({ title: "Microphone Access", description: "Please allow microphone access to record audio stories", variant: "destructive" });
+                      });
+                  }
                 }}
               >
                 <Mic className="h-6 w-6 mb-2" />
@@ -343,14 +368,46 @@ export default function StoryTime() {
                 variant="outline"
                 className="flex flex-col items-center p-4 h-auto border-[#f38e57] text-[#f38e57] hover:bg-[#f38e57] hover:text-white"
                 onClick={() => {
-                  toast({ title: "Camera Opened", description: "Visual story creation started" });
-                  setShowCreateDialog(false);
-                  setStoryTopic("");
-                  setStoryDescription("");
+                  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                      .then(() => {
+                        toast({ title: "Camera Opened", description: "Visual story creation started" });
+                        setShowCreateDialog(false);
+                        setStoryTopic("");
+                        setStoryDescription("");
+                      })
+                      .catch(() => {
+                        toast({ title: "Camera Access", description: "Please allow camera access to create visual stories", variant: "destructive" });
+                      });
+                  }
                 }}
               >
                 <Camera className="h-6 w-6 mb-2" />
                 <span className="text-sm">Visual Story</span>
+              </Button>
+            </div>
+            <div className="pt-2">
+              <Button
+                variant="outline"
+                className="w-full border-[#d65d8b] text-[#d65d8b] hover:bg-[#d65d8b] hover:text-white"
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = 'image/*,video/*';
+                  input.multiple = true;
+                  input.onchange = (e) => {
+                    const files = (e.target as HTMLInputElement).files;
+                    if (files && files.length > 0) {
+                      toast({ title: "Photos Added", description: `${files.length} photos selected for your story` });
+                      setShowCreateDialog(false);
+                      setStoryTopic("");
+                      setStoryDescription("");
+                    }
+                  };
+                  input.click();
+                }}
+              >
+                Add Photos/Videos
               </Button>
             </div>
           </div>

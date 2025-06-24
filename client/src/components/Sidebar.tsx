@@ -46,11 +46,11 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
       }`}
     >
       {/* Header */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Menu</h2>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <X className="h-5 w-5" />
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Menu</h2>
+          <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-100 dark:hover:bg-gray-800">
+            <X className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </Button>
         </div>
         
@@ -61,10 +61,10 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
             className="w-16 h-16 rounded-full border-3 border-pink-500 object-cover"
           />
           <div>
-            <h3 className="font-semibold text-gray-800">
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200">
               {user?.firstName}'s Family
             </h3>
-            <p className="text-sm text-gray-500">Family Member</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Family Member</p>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
           <Link key={index} href={item.path}>
             <Button
               variant="ghost"
-              className="w-full justify-start p-3 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
+              className="w-full justify-start p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
               onClick={onClose}
             >
               <item.icon className={`h-5 w-5 mr-3 ${item.color}`} />

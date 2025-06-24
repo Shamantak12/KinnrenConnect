@@ -20,7 +20,7 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
   const timeAgo = formatDistanceToNow(new Date(post.createdAt), { addSuffix: true });
 
   return (
-    <Card className="border-0 border-b border-gray-200 rounded-none post-shadow animate-fade-in">
+    <Card className="border-0 border-b border-gray-200 dark:border-gray-700 dark:bg-gray-900 rounded-none post-shadow animate-fade-in">
       {/* Post Header */}
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center space-x-3">
@@ -34,10 +34,10 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
             </AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-semibold text-gray-800">
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200">
               {post.user.firstName} {post.user.lastName}
             </h3>
-            <p className="text-xs text-gray-500">{timeAgo}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{timeAgo}</p>
           </div>
         </div>
         <DropdownMenu>
