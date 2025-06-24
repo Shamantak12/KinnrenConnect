@@ -10,7 +10,7 @@ import BottomNavigation from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MessageCircle, Menu, Video, Send, Search, Bell, Camera, Image, Plus, Target, Trophy, Users } from "lucide-react";
+import { MessageCircle, Menu, Video, Send, Search, Bell, Camera, Image, Plus, Target, Trophy, Users, Smile } from "lucide-react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -140,7 +140,7 @@ export default function Home() {
                 className="absolute bottom-2 right-2 text-gray-500 hover:bg-white/80 dark:hover:bg-gray-700/80 p-1 rounded"
                 onClick={() => toast({ title: "Emoji picker", description: "Emoji selection feature available" })}
               >
-                😊
+                <Smile className="h-4 w-4" />
               </Button>
             </div>
             <Button
@@ -204,12 +204,66 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Stories Section */}
-      {(stories as any[]).length > 0 && (
-        <div className="px-4 py-2 border-b border-gray-100">
-          <StoriesSection stories={stories as any[]} />
+      {/* Stories Section - Always visible */}
+      <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Family Stories</h2>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-[#936cbf]"
+            onClick={() => window.location.href = "/story-time"}
+          >
+            <span className="text-sm">View All</span>
+          </Button>
         </div>
-      )}
+        
+        <div className="flex space-x-4 overflow-x-auto pb-2">
+          {/* Add Story Button */}
+          <div className="flex flex-col items-center space-y-2 min-w-[70px]">
+            <Button
+              onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*,video/*';
+                input.multiple = true;
+                input.onchange = (e) => {
+                  const files = (e.target as HTMLInputElement).files;
+                  if (files && files.length > 0) {
+                    toast({ title: "Story Created", description: `${files.length} photos added to your story` });
+                  }
+                };
+                input.click();
+              }}
+              className="w-16 h-16 rounded-full bg-gradient-to-r from-[#936cbf] to-[#f38e57] hover:opacity-90 text-white flex items-center justify-center p-0"
+            >
+              <Plus className="h-6 w-6" />
+            </Button>
+            <span className="text-xs text-gray-600 dark:text-gray-400 text-center">Add Story</span>
+          </div>
+          
+          {/* Existing Stories */}
+          {(stories as any[]).map((story) => (
+            <div key={story.id} className="flex flex-col items-center space-y-2 min-w-[70px]">
+              <div className="relative">
+                <img
+                  src={story.thumbnail}
+                  alt={story.user.firstName}
+                  className="w-16 h-16 rounded-full object-cover border-2 border-[#936cbf] cursor-pointer"
+                  onClick={() => {
+                    toast({ title: "Viewing Story", description: `Now viewing ${story.user.firstName}'s story` });
+                    window.location.href = "/story-time";
+                  }}
+                />
+                {!story.viewed && (
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#f38e57] rounded-full border-2 border-white"></div>
+                )}
+              </div>
+              <span className="text-xs text-gray-600 dark:text-gray-400 text-center">{story.user.firstName}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Main Content */}
       <main className="flex-1 pb-20">

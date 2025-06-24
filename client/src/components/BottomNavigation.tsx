@@ -51,10 +51,13 @@ export default function BottomNavigation() {
 
       {/* Chat Options Dialog */}
       <Dialog open={showChatOptions} onOpenChange={setShowChatOptions}>
-        <DialogContent className="max-w-sm mx-auto">
+        <DialogContent className="max-w-sm mx-auto" aria-describedby="chat-options-description">
           <DialogHeader>
             <DialogTitle>Chat Options</DialogTitle>
           </DialogHeader>
+          <div id="chat-options-description" className="sr-only">
+            Choose between video chat or group messaging options
+          </div>
           <div className="space-y-3">
             <Button
               onClick={() => {
