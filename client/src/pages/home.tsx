@@ -17,6 +17,7 @@ export default function Home() {
   const [quickThought, setQuickThought] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showGroupDialog, setShowGroupDialog] = useState(false);
+  const [selectedStory, setSelectedStory] = useState<any>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -204,66 +205,92 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Stories Section - Always visible */}
-      <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Family Stories</h2>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-[#936cbf]"
-            onClick={() => window.location.href = "/story-time"}
-          >
-            <span className="text-sm">View All</span>
-          </Button>
-        </div>
-        
-        <div className="flex space-x-4 overflow-x-auto pb-2">
+      {/* Stories Section - Instagram Style */}
+      <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+        <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide">
           {/* Add Story Button */}
-          <div className="flex flex-col items-center space-y-2 min-w-[70px]">
-            <Button
-              onClick={() => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*,video/*';
-                input.multiple = true;
-                input.onchange = (e) => {
-                  const files = (e.target as HTMLInputElement).files;
-                  if (files && files.length > 0) {
-                    toast({ title: "Story Created", description: `${files.length} photos added to your story` });
-                  }
-                };
-                input.click();
-              }}
-              className="w-16 h-16 rounded-full bg-gradient-to-r from-[#936cbf] to-[#f38e57] hover:opacity-90 text-white flex items-center justify-center p-0"
-            >
-              <Plus className="h-6 w-6" />
-            </Button>
-            <span className="text-xs text-gray-600 dark:text-gray-400 text-center">Add Story</span>
+          <div className="flex flex-col items-center space-y-1 min-w-[70px]">
+            <div className="relative">
+              <Button
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = 'image/*,video/*';
+                  input.onchange = (e) => {
+                    const files = (e.target as HTMLInputElement).files;
+                    if (files && files.length > 0) {
+                      toast({ title: "Story uploaded!", description: "Your story is now live for 24 hours" });
+                    }
+                  };
+                  input.click();
+                }}
+                className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 flex items-center justify-center p-0 border-2 border-dashed border-gray-300 dark:border-gray-600"
+              >
+                <Plus className="h-6 w-6" />
+              </Button>
+            </div>
+            <span className="text-xs text-gray-600 dark:text-gray-400 text-center">Your Story</span>
           </div>
           
-          {/* Existing Stories */}
+          {/* Family Stories */}
           {(stories as any[]).map((story) => (
-            <div key={story.id} className="flex flex-col items-center space-y-2 min-w-[70px]">
+            <div key={story.id} className="flex flex-col items-center space-y-1 min-w-[70px]">
               <div className="relative">
-                <img
-                  src={story.thumbnail}
-                  alt={story.user.firstName}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-[#936cbf] cursor-pointer"
-                  onClick={() => {
-                    toast({ title: "Viewing Story", description: `Now viewing ${story.user.firstName}'s story` });
-                    window.location.href = "/story-time";
-                  }}
-                />
+                <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#f38e57] via-[#d65d8b] to-[#936cbf] p-[2px]">
+                  <img
+                    src={story.thumbnail}
+                    alt={story.user.firstName}
+                    className="w-full h-full rounded-full object-cover bg-white dark:bg-gray-900 p-[2px] cursor-pointer"
+                    onClick={() => {
+                      setSelectedStory(story);
+                      toast({ title: "Story opened", description: `Viewing ${story.user.firstName}'s story` });
+                    }}
+                  />
+                </div>
                 {!story.viewed && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#f38e57] rounded-full border-2 border-white"></div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#f38e57] rounded-full border border-white dark:border-gray-900"></div>
                 )}
               </div>
-              <span className="text-xs text-gray-600 dark:text-gray-400 text-center">{story.user.firstName}</span>
+              <span className="text-xs text-gray-600 dark:text-gray-400 text-center truncate w-16">{story.user.firstName}</span>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Story Viewer Modal */}
+      {selectedStory && (
+        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+          <div className="relative w-full h-full max-w-md bg-black">
+            <img
+              src={selectedStory.thumbnail}
+              alt="Story"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <img
+                  src={selectedStory.user.profileImageUrl}
+                  alt={selectedStory.user.firstName}
+                  className="w-8 h-8 rounded-full border border-white"
+                />
+                <span className="text-white text-sm font-medium">{selectedStory.user.firstName}</span>
+                <span className="text-white/80 text-xs">{selectedStory.timeAgo}</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedStory(null)}
+                className="text-white hover:bg-white/20 p-1"
+              >
+                <Plus className="h-5 w-5 rotate-45" />
+              </Button>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/30">
+              <div className="h-full bg-white animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="flex-1 pb-20">

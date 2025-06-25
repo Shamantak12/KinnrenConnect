@@ -15,7 +15,8 @@ import {
   Bookmark, 
   Landmark, 
   Settings,
-  X 
+  X,
+  LogOut
 } from "lucide-react";
 
 interface SidebarProps {
@@ -40,11 +41,21 @@ const menuItems = [
 
 export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
   return (
-    <nav 
-      className={`fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}
-    >
+    <>
+      {/* Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+          onClick={onClose}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <nav 
+        className={`fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
       {/* Header */}
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-4">
@@ -96,7 +107,19 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
             <span>Settings</span>
           </Button>
         </Link>
+
+        <a href="/api/logout" className="w-full">
+          <Button 
+            variant="outline" 
+            className="w-full mt-6 border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"
+            onClick={onClose}
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Sign Out
+          </Button>
+        </a>
       </div>
     </nav>
+    </>
   );
 }
