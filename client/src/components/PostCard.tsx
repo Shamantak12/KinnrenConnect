@@ -309,9 +309,9 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
               Share this post with your family and friends
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
+          {/* <div className="space-y-4"> */}
             {/* Quick Share Options */}
-            <div className="grid grid-cols-4 gap-4">
+            {/* <div className="grid grid-cols-4 gap-4">
               <Button
                 variant="outline"
                 className="flex flex-col items-center p-4 h-auto hover:bg-blue-50 border-blue-200"
@@ -327,9 +327,9 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
               >
                 <Share className="h-6 w-6 text-blue-500 mb-2" />
                 <span className="text-xs">Share</span>
-              </Button>
+              </Button> */}
               
-              <Button
+              {/* <Button
                 variant="outline"
                 className="flex flex-col items-center p-4 h-auto hover:bg-green-50 border-green-200"
                 onClick={() => {
@@ -342,9 +342,9 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
               >
                 <MessageSquare className="h-6 w-6 text-green-500 mb-2" />
                 <span className="text-xs">SMS</span>
-              </Button>
+              </Button> */}
 
-              <Button
+              {/* <Button
                 variant="outline"
                 className="flex flex-col items-center p-4 h-auto hover:bg-red-50 border-red-200"
                 onClick={() => {
@@ -358,9 +358,9 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
               >
                 <Mail className="h-6 w-6 text-red-500 mb-2" />
                 <span className="text-xs">Email</span>
-              </Button>
+              </Button> */}
 
-              <Button
+              {/* <Button
                 variant="outline"
                 className="flex flex-col items-center p-4 h-auto hover:bg-gray-50 border-gray-200"
                 onClick={() => {
@@ -373,7 +373,7 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
                 <Copy className="h-6 w-6 text-gray-500 mb-2" />
                 <span className="text-xs">Copy</span>
               </Button>
-            </div>
+            </div> */}
 
             {/* Family Members Quick Share */}
             <div className="border-t pt-4">
