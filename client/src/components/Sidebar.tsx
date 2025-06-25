@@ -68,12 +68,12 @@ const menuItems = [
     color: "text-[#936cbf]",
     path: "/story-time",
   },
-  {
-    icon: Archive,
-    label: "Time Capsule",
-    color: "text-[#f38e57]",
-    path: "/time-capsule",
-  },
+  // {
+  //   icon: Archive,
+  //   label: "Time Capsule",
+  //   color: "text-[#f38e57]",
+  //   path: "/time-capsule",
+  // },
   {
     icon: Video,
     label: "Video Montage",

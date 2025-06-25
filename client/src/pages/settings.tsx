@@ -3,17 +3,32 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/hooks/useTheme";
-import { ArrowLeft, MessageCircle, Bell, User, Shield, Eye, Volume2, Moon, Sun, Globe, HelpCircle, LogOut, ChevronRight, Bookmark } from "lucide-react";
+import {
+  ArrowLeft,
+  MessageCircle,
+  Bell,
+  User,
+  Shield,
+  Eye,
+  Volume2,
+  Moon,
+  Sun,
+  Globe,
+  HelpCircle,
+  LogOut,
+  ChevronRight,
+  Bookmark,
+} from "lucide-react";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
-  
+
   const [chatSettings, setChatSettings] = useState({
     readReceipts: true,
     onlineStatus: true,
     lastSeen: false,
     groupNotifications: true,
-    messagePreview: true
+    messagePreview: true,
   });
 
   const [notificationSettings, setNotificationSettings] = useState({
@@ -23,20 +38,20 @@ export default function Settings() {
     familyPosts: true,
     directMessages: true,
     storyUpdates: false,
-    eventReminders: true
+    eventReminders: true,
   });
 
   const [privacySettings, setPrivacySettings] = useState({
     profileVisibility: true,
     activityStatus: true,
     familyTreeVisible: true,
-    locationSharing: false
+    locationSharing: false,
   });
 
   const [accountSettings, setAccountSettings] = useState({
     language: "English",
     autoSave: true,
-    dataUsage: "WiFi Only"
+    dataUsage: "WiFi Only",
   });
 
   const settingSections = [
@@ -45,54 +60,169 @@ export default function Settings() {
       icon: MessageCircle,
       color: "text-[#936cbf]",
       settings: [
-        { key: "readReceipts", label: "Read Receipts", description: "Let others know when you've read their messages" },
-        { key: "onlineStatus", label: "Show Online Status", description: "Display when you're active" },
-        { key: "lastSeen", label: "Last Seen", description: "Show when you were last active" },
-        { key: "groupNotifications", label: "Group Chat Notifications", description: "Get notified for group messages" },
-        { key: "messagePreview", label: "Message Preview", description: "Show message content in notifications" }
+        {
+          key: "readReceipts",
+          label: "Read Receipts",
+          description: "Let others know when you've read their messages",
+        },
+        {
+          key: "onlineStatus",
+          label: "Show Online Status",
+          description: "Display when you're active",
+        },
+        {
+          key: "lastSeen",
+          label: "Last Seen",
+          description: "Show when you were last active",
+        },
+        {
+          key: "groupNotifications",
+          label: "Group Chat Notifications",
+          description: "Get notified for group messages",
+        },
+        {
+          key: "messagePreview",
+          label: "Message Preview",
+          description: "Show message content in notifications",
+        },
       ],
       state: chatSettings,
-      setState: setChatSettings
+      setState: setChatSettings,
     },
     {
       title: "Notifications",
       icon: Bell,
       color: "text-[#f38e57]",
       settings: [
-        { key: "pushNotifications", label: "Push Notifications", description: "Receive notifications on your device" },
-        { key: "soundAlerts", label: "Sound Alerts", description: "Play sounds for new messages" },
-        { key: "vibration", label: "Vibration", description: "Vibrate for notifications" },
-        { key: "familyPosts", label: "Family Posts", description: "Notify when family members post" },
-        { key: "directMessages", label: "Direct Messages", description: "Notify for private messages" },
-        { key: "storyUpdates", label: "Story Updates", description: "Notify for new stories" },
-        { key: "eventReminders", label: "Event Reminders", description: "Remind me of family events" }
+        {
+          key: "pushNotifications",
+          label: "Push Notifications",
+          description: "Receive notifications on your device",
+        },
+        {
+          key: "soundAlerts",
+          label: "Sound Alerts",
+          description: "Play sounds for new messages",
+        },
+        {
+          key: "vibration",
+          label: "Vibration",
+          description: "Vibrate for notifications",
+        },
+        {
+          key: "familyPosts",
+          label: "Family Posts",
+          description: "Notify when family members post",
+        },
+        {
+          key: "directMessages",
+          label: "Direct Messages",
+          description: "Notify for private messages",
+        },
+        {
+          key: "storyUpdates",
+          label: "Story Updates",
+          description: "Notify for new stories",
+        },
+        {
+          key: "eventReminders",
+          label: "Event Reminders",
+          description: "Remind me of family events",
+        },
       ],
       state: notificationSettings,
-      setState: setNotificationSettings
+      setState: setNotificationSettings,
     },
     {
       title: "Privacy & Security",
       icon: Shield,
       color: "text-[#d65d8b]",
       settings: [
-        { key: "profileVisibility", label: "Profile Visibility", description: "Make your profile visible to family" },
-        { key: "activityStatus", label: "Activity Status", description: "Show your activity to others" },
-        { key: "familyTreeVisible", label: "Family Tree Visibility", description: "Display in family tree" },
-        { key: "locationSharing", label: "Location Sharing", description: "Share your location with family" }
+        {
+          key: "profileVisibility",
+          label: "Profile Visibility",
+          description: "Make your profile visible to family",
+        },
+        {
+          key: "activityStatus",
+          label: "Activity Status",
+          description: "Show your activity to others",
+        },
+        {
+          key: "familyTreeVisible",
+          label: "Family Tree Visibility",
+          description: "Display in family tree",
+        },
+        {
+          key: "locationSharing",
+          label: "Location Sharing",
+          description: "Share your location with family",
+        },
       ],
       state: privacySettings,
-      setState: setPrivacySettings
-    }
+      setState: setPrivacySettings,
+    },
   ];
 
   const accountOptions = [
-    { icon: User, label: "Edit Profile", description: "Update your personal information", action: () => window.location.href = "/profile" },
-    { icon: Eye, label: "Privacy Policy", description: "Review our privacy policy", action: () => {} },
-    { icon: Globe, label: "Language", description: "English", action: () => {} },
-    { icon: theme === "light" ? Moon : Sun, label: "Dark Mode", description: theme === "light" ? "Switch to dark theme" : "Switch to light theme", hasSwitch: true, value: theme === "dark", action: toggleTheme },
-    { icon: Volume2, label: "Data Usage", description: "WiFi Only", action: () => {} },
-    { icon: HelpCircle, label: "Help & Support", description: "Get help with Kinnren", action: () => {} },
-    { icon: LogOut, label: "Sign Out", description: "Sign out of your account", action: () => {}, danger: true }
+    {
+      icon: User,
+      label: "Edit Profile",
+      description: "Update your personal information",
+      action: () => (window.location.href = "/profile"),
+    },
+    {
+      icon: Eye,
+      label: "Privacy Policy",
+      description: "Review our privacy policy",
+      action: () => {},
+    },
+    {
+      icon: Globe,
+      label: "Language",
+      description: "English",
+      action: () => {},
+    },
+    {
+      icon: Bookmark,
+      label: "Bookmarks",
+      description: "View your saved memories",
+      action: () => (window.location.href = "/bookmarks"),
+    },
+    {
+      icon: HelpCircle,
+      label: "Help & Support",
+      description: "Get help with Kinnren",
+      action: () => {},
+    },
+    {
+      icon: theme === "light" ? Moon : Sun,
+      label: "Dark Mode",
+      description:
+        theme === "light" ? "Switch to dark theme" : "Switch to light theme",
+      hasSwitch: true,
+      value: theme === "dark",
+      action: toggleTheme,
+    },
+    {
+      icon: Volume2,
+      label: "Data Usage",
+      description: "WiFi Only",
+      action: () => {},
+    },
+    {
+      icon: HelpCircle,
+      label: "Help & Support",
+      description: "Get help with Kinnren",
+      action: () => {},
+    },
+    {
+      icon: LogOut,
+      label: "Sign Out",
+      description: "Sign out of your account",
+      action: () => {},
+      danger: true,
+    },
   ];
 
   return (
@@ -110,7 +240,9 @@ export default function Settings() {
           </Button>
           <div>
             <h1 className="text-xl font-bold">Settings</h1>
-            <p className="text-sm text-white/80">Manage your account & preferences</p>
+            <p className="text-sm text-white/80">
+              Manage your account & preferences
+            </p>
           </div>
         </div>
       </header>
@@ -137,20 +269,34 @@ export default function Settings() {
           <div key={index} className="space-y-4">
             <div className="flex items-center space-x-2">
               <section.icon className={`h-5 w-5 ${section.color}`} />
-              <h2 className="text-lg font-semibold text-gray-900">{section.title}</h2>
+              <h2 className="text-lg font-semibold text-gray-900">
+                {section.title}
+              </h2>
             </div>
-            
+
             <div className="bg-gray-50 rounded-lg p-4 space-y-4">
               {section.settings.map((setting, settingIndex) => (
-                <div key={settingIndex} className="flex items-center justify-between">
+                <div
+                  key={settingIndex}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-900">{setting.label}</h4>
-                    <p className="text-sm text-gray-600">{setting.description}</p>
+                    <h4 className="font-medium text-gray-900">
+                      {setting.label}
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                      {setting.description}
+                    </p>
                   </div>
                   <Switch
-                    checked={section.state[setting.key as keyof typeof section.state]}
-                    onCheckedChange={(checked) => 
-                      section.setState((prev: any) => ({ ...prev, [setting.key]: checked }))
+                    checked={
+                      section.state[setting.key as keyof typeof section.state]
+                    }
+                    onCheckedChange={(checked) =>
+                      section.setState((prev: any) => ({
+                        ...prev,
+                        [setting.key]: checked,
+                      }))
                     }
                     className="data-[state=checked]:bg-[#936cbf]"
                   />
@@ -171,17 +317,23 @@ export default function Settings() {
               <div
                 key={index}
                 className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors ${
-                  option.danger ? 'hover:bg-red-50' : ''
+                  option.danger ? "hover:bg-red-50" : ""
                 }`}
                 onClick={option.action}
               >
                 <div className="flex items-center space-x-3">
-                  <option.icon className={`h-5 w-5 ${option.danger ? 'text-red-500' : 'text-gray-600'}`} />
+                  <option.icon
+                    className={`h-5 w-5 ${option.danger ? "text-red-500" : "text-gray-600"}`}
+                  />
                   <div>
-                    <h4 className={`font-medium ${option.danger ? 'text-red-600' : 'text-gray-900'}`}>
+                    <h4
+                      className={`font-medium ${option.danger ? "text-red-600" : "text-gray-900"}`}
+                    >
                       {option.label}
                     </h4>
-                    <p className="text-sm text-gray-600">{option.description}</p>
+                    <p className="text-sm text-gray-600">
+                      {option.description}
+                    </p>
                   </div>
                 </div>
                 {option.hasSwitch ? (
