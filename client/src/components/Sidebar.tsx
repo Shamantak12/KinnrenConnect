@@ -80,12 +80,12 @@ const menuItems = [
     color: "text-[#d65d8b]",
     path: "/video-montage",
   },
-  {
-    icon: Bookmark,
-    label: "Bookmarks",
-    color: "text-[#936cbf]",
-    path: "/bookmarks",
-  },
+  // {
+  //   icon: Bookmark,
+  //   label: "Bookmarks",
+  //   color: "text-[#936cbf]",
+  //   path: "/bookmarks",
+  // },
   {
     icon: Landmark,
     label: "Heritage",

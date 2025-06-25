@@ -28,6 +28,8 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
             <AvatarImage 
               src={post.user.profileImageUrl || `https://ui-avatars.com/api/?name=${post.user.firstName}+${post.user.lastName}&background=ff6b6b&color=fff`} 
               alt={`${post.user.firstName} ${post.user.lastName}`}
+              className="cursor-pointer"
+              onClick={() => window.location.href = `/profile/${post.user.id}`}
             />
             <AvatarFallback>
               {post.user.firstName?.[0]}{post.user.lastName?.[0]}
