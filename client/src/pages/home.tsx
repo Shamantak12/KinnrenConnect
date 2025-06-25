@@ -116,7 +116,12 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative">
+    <div 
+      className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Header */}
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <Button
@@ -157,12 +162,6 @@ export default function Home() {
           </Button>
         </div>
       </header>
-      <div
-        className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
 
       {/* Quick Thought Sharing - Increased Size */}
       <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800">
