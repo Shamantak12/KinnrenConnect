@@ -21,7 +21,7 @@ export default function Chats() {
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
-  onst[(touchStart, setTouchStart)] = useState<number | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -368,7 +368,12 @@ export default function Chats() {
       </div>
 
       {/* Chat List */}
-      <div className="flex-1 p-4 space-y-3">
+      <div 
+        className="flex-1 p-4 space-y-3"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {filteredChats.length === 0 ? (
           <div className="text-center py-12">
             <MessageCircle className="h-16 w-16 text-[#936cbf] mx-auto mb-4" />
@@ -398,13 +403,6 @@ export default function Chats() {
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
                     )}
                   </div>
-                  <div
-                    className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative"
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                  >
-
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
                       <h3 className="font-semibold text-gray-900 truncate">
