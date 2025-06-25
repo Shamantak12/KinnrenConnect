@@ -9,8 +9,27 @@ import StoriesSection from "@/components/StoriesSection";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MessageCircle, Menu, Video, Send, Search, Bell, Camera, Image, Plus, Target, Trophy, Users, Smile } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  MessageCircle,
+  Menu,
+  Video,
+  Send,
+  Search,
+  Bell,
+  Camera,
+  Image,
+  Plus,
+  Target,
+  Trophy,
+  Users,
+  Smile,
+} from "lucide-react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -28,8 +47,9 @@ export default function Home() {
     id: "1",
     firstName: "John",
     lastName: "Doe",
-    profileImageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    familyId: "family-1"
+    profileImageUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    familyId: "family-1",
   };
 
   // Fetch posts
@@ -59,6 +79,25 @@ export default function Home() {
       });
     },
   });
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEnd(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (
+      touchStart !== null &&
+      touchEnd !== null &&
+      touchStart - touchEnd > 50
+    ) {
+      window.location.href = "/chats";
+    }
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
 
   const handleBookmark = useMutation({
     mutationFn: async (postId: number) => {
@@ -83,7 +122,7 @@ export default function Home() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => window.location.href = "/notifications"}
+          onClick={() => (window.location.href = "/notifications")}
           className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg relative"
         >
           <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
@@ -91,13 +130,13 @@ export default function Home() {
             2
           </span>
         </Button>
-        
+
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-[#936cbf] to-[#f38e57] bg-clip-text text-transparent">
             Kinnren
           </h1>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
@@ -107,10 +146,10 @@ export default function Home() {
           >
             <Plus className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="sm" 
+
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setSidebarOpen(true)}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
           >
@@ -118,8 +157,12 @@ export default function Home() {
           </Button>
         </div>
       </header>
-
-
+      <div
+        className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
 
       {/* Quick Thought Sharing - Increased Size */}
       <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800">
@@ -141,7 +184,12 @@ export default function Home() {
                 variant="ghost"
                 size="sm"
                 className="absolute bottom-2 right-2 text-gray-500 hover:bg-white/80 dark:hover:bg-gray-700/80 p-1 rounded"
-                onClick={() => toast({ title: "Emoji picker", description: "Emoji selection feature available" })}
+                onClick={() =>
+                  toast({
+                    title: "Emoji picker",
+                    description: "Emoji selection feature available",
+                  })
+                }
               >
                 <Smile className="h-4 w-4" />
               </Button>
@@ -151,14 +199,17 @@ export default function Home() {
               size="sm"
               className="text-gray-500 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-700/80 p-2"
               onClick={() => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
+                const input = document.createElement("input");
+                input.type = "file";
+                input.accept = "image/*";
                 input.multiple = true;
                 input.onchange = (e) => {
                   const files = (e.target as HTMLInputElement).files;
                   if (files && files.length > 0) {
-                    toast({ title: "Images selected", description: `${files.length} image(s) ready to share with your thought` });
+                    toast({
+                      title: "Images selected",
+                      description: `${files.length} image(s) ready to share with your thought`,
+                    });
                   }
                 };
                 input.click();
@@ -187,12 +238,19 @@ export default function Home() {
 
       {/* Daily Tasks */}
       <div className="px-4 py-3 border-b border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Today's Family Tasks</h3>
+        <h3 className="text-sm font-semibold text-gray-900 mb-3">
+          Today's Family Tasks
+        </h3>
         <div className="grid grid-cols-3 gap-3">
           <Button
             variant="outline"
             className="flex flex-col items-center p-3 h-auto border-[#936cbf]/20 hover:bg-[#936cbf]/10"
-            onClick={() => toast({ title: "Task Complete!", description: "Image shared with family. +10 points!" })}
+            onClick={() =>
+              toast({
+                title: "Task Complete!",
+                description: "Image shared with family. +10 points!",
+              })
+            }
           >
             <Camera className="h-6 w-6 text-[#936cbf] mb-1" />
             <span className="text-xs text-center">Share Image</span>
@@ -201,7 +259,7 @@ export default function Home() {
           <Button
             variant="outline"
             className="flex flex-col items-center p-3 h-auto border-[#f38e57]/20 hover:bg-[#f38e57]/10"
-            onClick={() => window.location.href = "/family-games"}
+            onClick={() => (window.location.href = "/family-games")}
           >
             <Target className="h-6 w-6 text-[#f38e57] mb-1" />
             <span className="text-xs text-center">Start Game</span>
@@ -210,7 +268,7 @@ export default function Home() {
           <Button
             variant="outline"
             className="flex flex-col items-center p-3 h-auto border-[#d65d8b]/20 hover:bg-[#d65d8b]/10"
-            onClick={() => window.location.href = "/family-map"}
+            onClick={() => (window.location.href = "/family-map")}
           >
             <Users className="h-6 w-6 text-[#d65d8b] mb-1" />
             <span className="text-xs text-center">Add Group</span>
@@ -227,13 +285,16 @@ export default function Home() {
             <div className="relative">
               <Button
                 onClick={() => {
-                  const input = document.createElement('input');
-                  input.type = 'file';
-                  input.accept = 'image/*,video/*';
+                  const input = document.createElement("input");
+                  input.type = "file";
+                  input.accept = "image/*,video/*";
                   input.onchange = (e) => {
                     const files = (e.target as HTMLInputElement).files;
                     if (files && files.length > 0) {
-                      toast({ title: "Story uploaded!", description: "Your story is now live for 24 hours" });
+                      toast({
+                        title: "Story uploaded!",
+                        description: "Your story is now live for 24 hours",
+                      });
                     }
                   };
                   input.click();
@@ -243,12 +304,17 @@ export default function Home() {
                 <Plus className="h-6 w-6" />
               </Button>
             </div>
-            <span className="text-xs text-gray-600 dark:text-gray-400 text-center">Your Story</span>
+            <span className="text-xs text-gray-600 dark:text-gray-400 text-center">
+              Your Story
+            </span>
           </div>
-          
+
           {/* Family Stories */}
           {(stories as any[]).map((story) => (
-            <div key={story.id} className="flex flex-col items-center space-y-1 min-w-[70px]">
+            <div
+              key={story.id}
+              className="flex flex-col items-center space-y-1 min-w-[70px]"
+            >
               <div className="relative">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#f38e57] via-[#d65d8b] to-[#936cbf] p-[2px]">
                   <img
@@ -257,7 +323,10 @@ export default function Home() {
                     className="w-full h-full rounded-full object-cover bg-white dark:bg-gray-900 p-[2px] cursor-pointer"
                     onClick={() => {
                       setSelectedStory(story);
-                      toast({ title: "Story opened", description: `Viewing ${story.user.firstName}'s story` });
+                      toast({
+                        title: "Story opened",
+                        description: `Viewing ${story.user.firstName}'s story`,
+                      });
                     }}
                   />
                 </div>
@@ -265,9 +334,11 @@ export default function Home() {
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#f38e57] rounded-full border border-white dark:border-gray-900"></div>
                 )}
               </div>
-              <span 
+              <span
                 className="text-xs text-gray-600 dark:text-gray-400 text-center truncate w-16 cursor-pointer hover:text-[#936cbf]"
-                onClick={() => window.location.href = `/profile/${story.user.id}`}
+                onClick={() =>
+                  (window.location.href = `/profile/${story.user.id}`)
+                }
               >
                 {story.user.firstName}
               </span>
@@ -292,8 +363,12 @@ export default function Home() {
                   alt={selectedStory.user.firstName}
                   className="w-8 h-8 rounded-full border border-white"
                 />
-                <span className="text-white text-sm font-medium">{selectedStory.user.firstName}</span>
-                <span className="text-white/80 text-xs">{selectedStory.timeAgo}</span>
+                <span className="text-white text-sm font-medium">
+                  {selectedStory.user.firstName}
+                </span>
+                <span className="text-white/80 text-xs">
+                  {selectedStory.timeAgo}
+                </span>
               </div>
               <Button
                 variant="ghost"
@@ -341,7 +416,8 @@ export default function Home() {
               Welcome to Your Family Circle
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              Start sharing precious moments with your loved ones. Create your first post to begin building beautiful memories together.
+              Start sharing precious moments with your loved ones. Create your
+              first post to begin building beautiful memories together.
             </p>
             <Button className="bg-gradient-to-r from-pink-500 to-teal-500 hover:from-pink-600 hover:to-teal-600">
               Create Your First Post
@@ -364,8 +440,6 @@ export default function Home() {
       {/* Bottom Navigation */}
       <BottomNavigation />
 
-
-
       {/* Group Creation Dialog */}
       <Dialog open={showGroupDialog} onOpenChange={setShowGroupDialog}>
         <DialogContent className="max-w-sm mx-auto">
@@ -373,7 +447,9 @@ export default function Home() {
             <DialogTitle>Create Group</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 dark:text-gray-400">Create a new group with family members</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Create a new group with family members
+            </p>
             <Button
               onClick={() => {
                 setShowGroupDialog(false);
