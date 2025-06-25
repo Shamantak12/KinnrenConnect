@@ -309,7 +309,7 @@ export default function PostCard({ post, onLike, onBookmark, isLiking, isBookmar
               Share this post with your family and friends
             </DialogDescription>
           </DialogHeader>
-          {/* <div className="space-y-4"> */}
+          <div className="space-y-4">
             {/* Quick Share Options */}
             {/* <div className="grid grid-cols-4 gap-4">
               <Button
