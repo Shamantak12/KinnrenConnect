@@ -88,13 +88,17 @@ export default function Home() {
   };
 
   const handleTouchEnd = () => {
-    if (
-      touchStart !== null &&
-      touchEnd !== null &&
-      touchStart - touchEnd > 50
-    ) {
-      window.location.href = "/chats";
+    if (touchStart !== null && touchEnd !== null) {
+      const swipeDistance = touchStart - touchEnd;
+
+      if (swipeDistance > 50) {
+        window.location.href = "/chats";
+      }
+      if (swipeDistance < -50) {
+        window.location.href = "/";
+      }
     }
+
     setTouchStart(null);
     setTouchEnd(null);
   };
@@ -116,7 +120,7 @@ export default function Home() {
   });
 
   return (
-    <div 
+    <div
       className="min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 relative"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
