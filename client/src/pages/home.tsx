@@ -18,6 +18,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showGroupDialog, setShowGroupDialog] = useState(false);
   const [selectedStory, setSelectedStory] = useState<any>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -148,7 +150,19 @@ export default function Home() {
               variant="ghost"
               size="sm"
               className="text-gray-500 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-700/80 p-2"
-              onClick={() => toast({ title: "Image picker", description: "Image selection feature available" })}
+              onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.multiple = true;
+                input.onchange = (e) => {
+                  const files = (e.target as HTMLInputElement).files;
+                  if (files && files.length > 0) {
+                    toast({ title: "Images selected", description: `${files.length} image(s) ready to share with your thought` });
+                  }
+                };
+                input.click();
+              }}
             >
               <Image className="h-4 w-4" />
             </Button>
@@ -251,7 +265,12 @@ export default function Home() {
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#f38e57] rounded-full border border-white dark:border-gray-900"></div>
                 )}
               </div>
-              <span className="text-xs text-gray-600 dark:text-gray-400 text-center truncate w-16">{story.user.firstName}</span>
+              <span 
+                className="text-xs text-gray-600 dark:text-gray-400 text-center truncate w-16 cursor-pointer hover:text-[#936cbf]"
+                onClick={() => window.location.href = `/profile/${story.user.id}`}
+              >
+                {story.user.firstName}
+              </span>
             </div>
           ))}
         </div>

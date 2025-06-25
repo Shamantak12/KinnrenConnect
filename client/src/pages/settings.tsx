@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/hooks/useTheme";
-import { ArrowLeft, MessageCircle, Bell, User, Shield, Eye, Volume2, Moon, Sun, Globe, HelpCircle, LogOut, ChevronRight } from "lucide-react";
+import { ArrowLeft, MessageCircle, Bell, User, Shield, Eye, Volume2, Moon, Sun, Globe, HelpCircle, LogOut, ChevronRight, Bookmark } from "lucide-react";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
